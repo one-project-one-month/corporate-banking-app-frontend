@@ -14,3 +14,16 @@ export const createUser = async (data: CreateUserPayload) => {
     throw new Error(String(error));
   }
 };
+
+export const getUsers = async () => {
+  try {
+    const res = await API.get("/users");
+    return res.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(error.response?.data?.message || error.message);
+    }
+
+    throw new Error(String(error));
+  }
+};

@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
 import {
   Pagination,
   PaginationContent,
@@ -8,6 +9,14 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "../ui/pagination";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { Label } from "../ui/label";
 
 type CustomPaginationProps = {
   isNext: boolean;
@@ -34,15 +43,31 @@ function CustomPagination({
     <Pagination
       className={cn("py-5 flex items-center justify-between", className)}
     >
-      <div className="text-sm text-gray-600">
-        Page {page} of {totalPages}
+      <div className="flex items-center gap-2">
+        <Label>Page</Label>
+        <Select
+          value={page.toString()}
+          onValueChange={(rowsPerPage) => setPage?.(Number(rowsPerPage))}
+        >
+          <SelectTrigger>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent className="h-44">
+            {Array.from({ length: totalPages }).map((_, i) => {
+              return (
+                <SelectItem value={(i + 1).toString()}>{i + 1}</SelectItem>
+              );
+            })}
+          </SelectContent>
+        </Select>
+        <Label>of {totalPages} Pages</Label>
       </div>
 
-      <PaginationContent className="gap-x-2">
+      <PaginationContent className="gap-0 border rounded-lg divide-x overflow-hidden">
         <PaginationItem>
           {isPrevious && (
             <PaginationPrevious
-              className="cursor-pointer"
+              className="rounded-none cursor-pointer"
               onClick={() => setPage && setPage(page - 1)}
             />
           )}
@@ -54,9 +79,14 @@ function CustomPagination({
               <PaginationLink
                 onClick={() => setPage && setPage(pg)}
                 className={cn(
-                  "flex items-center justify-center",
-                  pg === page &&
-                    "bg-primary hover:bg-primary text-white hover:text-white"
+                  {
+                    [buttonVariants({
+                      variant: "default",
+                      className:
+                        "dark:bg-primary dark:hover:bg-primary/90 hover:text-primary-foreground!",
+                    })]: pg === page,
+                  },
+                  "rounded-none border-none"
                 )}
               >
                 {pg}
@@ -85,7 +115,7 @@ function CustomPagination({
         <PaginationItem>
           {isNext && (
             <PaginationNext
-              className="h-9 w-9 cursor-pointer"
+              className="rounded-none cursor-pointer"
               onClick={() => setPage && setPage(page + 1)}
             />
           )}

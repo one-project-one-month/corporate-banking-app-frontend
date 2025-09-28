@@ -1,10 +1,12 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import z, { email } from "zod";
+import z from "zod";
 import { Form } from "@/components/ui/form";
 import FormTextInput from "@/components/common/form-inputs/FormTextInput";
 import { Button } from "@/components/ui/button";
 import { useCreateUser } from "@/queries/userQuery";
+
+//TODO: modify schema, need to add more form input variant (//dropdown select input type)
 
 const UserSchema = z.object({
   fullName: z.string(),
@@ -74,15 +76,15 @@ function UsersCreateForm({ handleClose }: UsersCreateFormProps) {
             />
           </div>
           <div>
-            <Button type="submit" className="block w-full mb-4  text-white">
-              Create
-            </Button>
             <Button
               type="button"
               onClick={handleClose}
-              className="block w-full bg-gray-300 hover:bg-gray-400"
+              className="block w-full bg-gray-300 mb-4 hover:bg-gray-400"
             >
               Cancel
+            </Button>
+            <Button type="submit" className="block w-full  text-white">
+              Add
             </Button>
           </div>
         </form>

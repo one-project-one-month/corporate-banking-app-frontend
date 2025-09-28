@@ -1,7 +1,6 @@
 import { useMemo } from "react";
 import CustomTable from "@/components/common/table/CustomTable";
 import type { Action, Column } from "@/types/Table";
-import { CheckCell } from "@/components/common/table/CustomCells";
 
 type User = {
   fullName: string;

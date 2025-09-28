@@ -51,7 +51,7 @@ function BankLayout() {
       <AppSidebar sidebarData={nav} />
       <SidebarInset>
         <SiteHeader />
-        <div className="w-full">
+        <div className="w-full px-6 py-3">
           <Outlet />
         </div>
       </SidebarInset>
