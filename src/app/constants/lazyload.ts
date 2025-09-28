@@ -11,6 +11,9 @@ export const BankLayout = PageLoader(
 );
 
 //Pages
+export const OrganizationsPage = PageLoader(
+  lazy(() => import("@/features/bank/pages/OrganizationsPage"))
+);
 export const UsersPage = PageLoader(
   lazy(() => import("@/features/bank/pages/UsersPage"))
 );

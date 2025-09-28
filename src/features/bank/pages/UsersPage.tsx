@@ -4,7 +4,7 @@ import UsersTable from "../components/users/UsersTable";
 
 function UsersPage() {
   return (
-    <div className="px-6 py-3">
+    <div>
       <UsersHeader />
       <UsersTable />
       <CustomPagination limit={5} totalCount={40} isNext isPrevious page={1} />
