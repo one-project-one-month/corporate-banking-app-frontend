@@ -6,6 +6,7 @@ import { RouterProvider } from "react-router-dom";
 import { Provider } from "react-redux";
 import router from "./app/routes/router";
 import { store } from "./app/store/store";
+import { Toaster } from "./components/ui/sonner";
 
 const queryClient = new QueryClient();
 
@@ -14,6 +15,7 @@ createRoot(document.getElementById("root")!).render(
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router}></RouterProvider>
+        <Toaster position="top-left" />
       </QueryClientProvider>
     </Provider>
   </StrictMode>
