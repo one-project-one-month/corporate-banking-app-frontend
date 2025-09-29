@@ -1,8 +1,7 @@
-import FormSelectInput from "@/components/common/form-inputs/FormSelectInput";
 import FormTextInput from "@/components/common/form-inputs/FormTextInput";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { useCreateOrganization } from "@/queries/organizationQuery";
+import { useCreateOrganization } from "@/queries/organization.query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import z from "zod";
