@@ -1,9 +1,12 @@
-import { Outlet } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Link, Outlet } from "react-router-dom";
 
 function MainLayout() {
   return (
-    <div>
-      <div className="text-2xl text-blue-600">Hello world</div>
+    <div className="p-5">
+      <Button asChild>
+        <Link to="/bank">Go To Bank Admin Page</Link>
+      </Button>
       <Outlet />
     </div>
   );
