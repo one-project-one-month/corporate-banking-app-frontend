@@ -19,7 +19,7 @@ function CustomTableRow<T extends Record<string, any>>({
       {columns.map((col) => (
         <TableCell
           key={col.key.toString()}
-          className={cn("py-5", col.className)}
+          className={cn("py-5 max-w-[200px] whitespace-normal", col.className)}
         >
           {col.cell ? col.cell(row[col.key], row) : row[col.key]}
         </TableCell>

@@ -4,7 +4,7 @@ import z from "zod";
 import { Form } from "@/components/ui/form";
 import FormTextInput from "@/components/common/form-inputs/FormTextInput";
 import { Button } from "@/components/ui/button";
-import { useCreateUser } from "@/queries/userQuery";
+import { useCreateUser } from "@/queries/user.query";
 
 //TODO: modify schema, need to add more form input variant (//dropdown select input type)
 

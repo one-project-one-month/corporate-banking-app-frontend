@@ -26,13 +26,13 @@ function CustomTable<T extends Record<string, any>>({
   isLoading = false,
 }: CustomTableProps<T>) {
   return (
-    <div className="rounded-md border">
-      <Table>
+    <div className="rounded-md border w-full">
+      <Table className="max-w-full">
         <TableHeader>
           <TableRow>
             {columns.map((col) => (
               <TableHead
-                className={cn("py-5", col.className)}
+                className={cn("py-5 max-w-[200px]", col.headerClassName)}
                 key={col.key.toString()}
               >
                 {col.label}

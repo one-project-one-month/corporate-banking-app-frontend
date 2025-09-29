@@ -1,6 +1,7 @@
 import {
   BankLayout,
   DashboardPage,
+  FAQPage,
   OrganizationsPage,
   UsersPage,
 } from "../constants/lazyload";
@@ -21,6 +22,10 @@ const bankRouter = [
       {
         path: "organizations",
         element: <OrganizationsPage />,
+      },
+      {
+        path: "FAQ",
+        element: <FAQPage />,
       },
     ],
   },
