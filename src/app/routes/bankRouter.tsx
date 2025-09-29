@@ -1,5 +1,6 @@
 import {
   BankLayout,
+  BankLoginPage,
   DashboardPage,
   FAQPage,
   OrganizationsPage,
@@ -28,6 +29,10 @@ const bankRouter = [
         element: <FAQPage />,
       },
     ],
+  },
+  {
+    path: "/bank/auth/login",
+    element: <BankLoginPage />,
   },
 ];
 
