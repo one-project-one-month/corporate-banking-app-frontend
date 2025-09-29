@@ -12,7 +12,7 @@ import TableSkeleton from "./TableSkeleton";
 
 type CustomTableProps<T extends Record<string, any>> = {
   columns: Column<T>[];
-  body: T[];
+  body: T[] | null;
   actions?: Action<T>[];
   isLoading?: boolean;
 };
@@ -44,7 +44,7 @@ function CustomTable<T extends Record<string, any>>({
         <TableBody>
           {isLoading ? (
             <TableSkeleton rows={5} columns={columns?.length + 1} />
-          ) : body.length <= 0 ? (
+          ) : (body?.length ?? 0) <= 0 ? (
             <TableRow>
               <TableHead
                 colSpan={columns.length + (actions.length > 0 ? 1 : 0)}
@@ -55,7 +55,7 @@ function CustomTable<T extends Record<string, any>>({
               </TableHead>
             </TableRow>
           ) : (
-            body.map((row, i) => (
+            body?.map((row, i) => (
               <CustomTableRow
                 row={row}
                 columns={columns as any}

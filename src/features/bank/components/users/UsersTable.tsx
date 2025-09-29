@@ -1,50 +1,18 @@
 import { useMemo } from "react";
 import CustomTable from "@/components/common/table/CustomTable";
 import type { Action, Column } from "@/types/Table";
-
-type User = {
-  fullName: string;
-  dateOfBirth: string;
-  genderId: string;
-  email: string;
-};
+import { useGetUsers } from "@/queries/user.query";
+import type { BaseUser } from "@/types/User";
 
 function UsersTable() {
-  const users: User[] = [
-    {
-      fullName: "Wai Yan Linn",
-      dateOfBirth: "17.5.2002",
-      genderId: "2",
-      email: "linn205426@gmail.com",
-    },
-    {
-      fullName: "Wai Yan Linn",
-      dateOfBirth: "17.5.2002",
-      genderId: "2",
-      email: "linn205426@gmail.com",
-    },
-    {
-      fullName: "Wai Yan Linn",
-      dateOfBirth: "17.5.2002",
-      genderId: "2",
-      email: "linn205426@gmail.com",
-    },
-    {
-      fullName: "Wai Yan Linn",
-      dateOfBirth: "17.5.2002",
-      genderId: "2",
-      email: "linn205426@gmail.com",
-    },
-    {
-      fullName: "Wai Yan Linn",
-      dateOfBirth: "17.5.2002",
-      genderId: "2",
-      email: "linn205426@gmail.com",
-    },
-  ];
+  const { data: users, isLoading } = useGetUsers();
 
-  const columns = useMemo<Column<User>[]>(
+  const columns = useMemo<Column<BaseUser>[]>(
     () => [
+      {
+        key: "id",
+        label: "ID",
+      },
       {
         key: "fullName",
         label: "Full Name",
@@ -58,6 +26,11 @@ function UsersTable() {
         key: "genderId",
         label: "Gender",
         className: "text-center",
+        cell: (value) => {
+          return (
+            <span>{value == 1 ? "Male" : value == 2 ? "Female" : "Other"}</span>
+          );
+        },
       },
       {
         key: "email",
@@ -67,7 +40,7 @@ function UsersTable() {
     []
   );
 
-  const actions = useMemo<Action<User>[]>(
+  const actions = useMemo<Action<BaseUser>[]>(
     () => [
       { name: "Edit", onClick: () => {} },
       { name: "Delete", onClick: () => {} },
@@ -75,7 +48,14 @@ function UsersTable() {
     []
   );
 
-  return <CustomTable<User> columns={columns} body={users} actions={actions} />;
+  return (
+    <CustomTable<BaseUser>
+      columns={columns}
+      body={users?.data ?? null}
+      actions={actions}
+      isLoading={isLoading}
+    />
+  );
 }
 
 export default UsersTable;
