@@ -1,6 +1,6 @@
 import { errorToast } from "@/lib/helpers/customToast";
 import { createUser, getUsers } from "@/services/user.service";
-import type { CreateUserPayload } from "@/types/User";
+import type { GetAllUserResponse, CreateUserPayload } from "@/types/User";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const useCreateUser = () => {
@@ -18,7 +18,7 @@ export const useCreateUser = () => {
 };
 
 export const useGetUsers = () => {
-  return useQuery({
+  return useQuery<GetAllUserResponse>({
     queryKey: ["users"],
     queryFn: getUsers,
   });
