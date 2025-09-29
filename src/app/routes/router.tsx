@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import { MainLayout } from "../constants/lazyload";
 import authRouter from "./authRouter";
+import bankRouter from "./bankRouter";
 
 const router = createBrowserRouter([
   {
@@ -9,6 +10,7 @@ const router = createBrowserRouter([
     children: [],
   },
   ...authRouter,
+  ...bankRouter,
 ]);
 
 export default router;
