@@ -5,14 +5,17 @@ import { Form } from "@/components/ui/form";
 import FormTextInput from "@/components/common/form-inputs/FormTextInput";
 import { Button } from "@/components/ui/button";
 import { useCreateUser } from "@/queries/user.query";
+import FormSelectInput from "@/components/common/form-inputs/FormSelectInput";
+import FormDateInput from "@/components/common/form-inputs/FormDateInput";
+import { formatDateToYYYYMMDD } from "@/lib/helpers/dateFormat";
 
 //TODO: modify schema, need to add more form input variant (//dropdown select input type)
 
 const UserSchema = z.object({
-  fullName: z.string(),
-  dateOfBirth: z.string(),
-  genderId: z.string(),
-  email: z.email(),
+  fullName: z.string().nonempty(),
+  dateOfBirth: z.date(),
+  genderId: z.string().nonempty(),
+  email: z.email().nonempty(),
 });
 
 type UsersCreateFormProps = {
@@ -31,8 +34,8 @@ function UsersCreateForm({ handleClose }: UsersCreateFormProps) {
   const handleSubmint = (data: UserFormValues) => {
     createUser({
       fullName: data.fullName,
-      dateOfBirth: data.dateOfBirth,
-      genderId: data.genderId,
+      dateOfBirth: formatDateToYYYYMMDD(data.dateOfBirth),
+      genderId: Number(data.genderId),
       email: data.email,
     });
   };
@@ -53,18 +56,28 @@ function UsersCreateForm({ handleClose }: UsersCreateFormProps) {
               form={form}
               wrapperClass="mb-4"
             />
-            <FormTextInput
+            <FormDateInput
               name="dateOfBirth"
               label="DOB"
               placeholder="Enter your date of birth"
               form={form}
               wrapperClass="mb-4"
             />
-            <FormTextInput
+            <FormSelectInput
               name="genderId"
               label="Gender"
               placeholder="Choose your gender"
               form={form}
+              options={[
+                {
+                  label: "Male",
+                  value: "1",
+                },
+                {
+                  label: "Female",
+                  value: "2",
+                },
+              ]}
               wrapperClass="mb-4"
             />
             <FormTextInput
