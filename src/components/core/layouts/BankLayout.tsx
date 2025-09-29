@@ -32,7 +32,7 @@ function BankLayout() {
         },
         {
           title: "FAQ",
-          url: "/bank/faq",
+          url: "/bank/FAQ",
         },
       ],
     }),

@@ -87,6 +87,7 @@ function OrganizationsTable() {
         key: "shortcode",
         label: "Shortcode",
         className: "text-center",
+        headerClassName: "text-center",
       },
       {
         key: "address",
@@ -96,11 +97,13 @@ function OrganizationsTable() {
         key: "country",
         label: "Country",
         className: "text-center",
+        headerClassName: "text-center",
       },
       {
         key: "createdBy",
         label: "Created By",
         className: "text-center",
+        headerClassName: "text-center",
       },
     ],
     []

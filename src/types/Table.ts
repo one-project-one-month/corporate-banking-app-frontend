@@ -4,6 +4,7 @@ export type Column<T> = {
   key: keyof T;
   label: string;
   className?: string;
+  headerClassName?: string;
   cell?: (value: any, row: T) => ReactNode;
 };
 
