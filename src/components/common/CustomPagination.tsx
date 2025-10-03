@@ -49,13 +49,15 @@ function CustomPagination({
           value={page.toString()}
           onValueChange={(rowsPerPage) => setPage?.(Number(rowsPerPage))}
         >
-          <SelectTrigger>
+          <SelectTrigger className="border-none shadow-none">
             <SelectValue />
           </SelectTrigger>
-          <SelectContent className="h-44">
+          <SelectContent className="max-h-44 rounded-none">
             {Array.from({ length: totalPages }).map((_, i) => {
               return (
-                <SelectItem value={(i + 1).toString()}>{i + 1}</SelectItem>
+                <SelectItem className="rounded-none" value={(i + 1).toString()}>
+                  {i + 1}
+                </SelectItem>
               );
             })}
           </SelectContent>
@@ -63,7 +65,7 @@ function CustomPagination({
         <Label>of {totalPages} Pages</Label>
       </div>
 
-      <PaginationContent className="gap-0 border rounded-lg divide-x overflow-hidden">
+      <PaginationContent className="gap-0 border rounded-md  divide-x overflow-hidden">
         <PaginationItem>
           {isPrevious && (
             <PaginationPrevious

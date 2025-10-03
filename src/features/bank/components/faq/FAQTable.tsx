@@ -2,72 +2,20 @@ import { useMemo, useState } from "react";
 import CustomTable from "@/components/common/table/CustomTable";
 import type { Action, Column } from "@/types/Table";
 import { ExpandableTextCell } from "@/components/common/table/CustomCells";
+import { useGetFaq } from "@/queries/FAQ.query";
+import usePagination from "@/hooks/usePagination";
+import CustomPagination from "@/components/common/CustomPagination";
+import type { BaseFAQ } from "@/types/FAQ";
 
-type FAQ = {
-  id: number;
-  question: string;
-  answer: string;
-  category: {
-    id: string;
-    name: string;
-  };
+type FAQTableProps = {
+  handleEditFAQ: (faq: BaseFAQ) => void;
 };
 
-function FAQTable() {
-  const FAQ: FAQ[] = [
-    {
-      id: 1,
-      question: "What is corporate banking?",
-      answer:
-        "Corporate banking refers to the aspect of banking that deals with corporate customers.",
-      category: {
-        id: "1",
-        name: "General",
-      },
-    },
-    {
-      id: 2,
-      question: "How can I open a corporate account?",
-      answer:
-        "You can open a corporate account by visiting your nearest branch with the required documents.",
-      category: {
-        id: "2",
-        name: "Account Opening",
-      },
-    },
-    {
-      id: 3,
-      question: "What are the benefits of corporate banking?",
-      answer:
-        "Corporate banking offers tailored financial solutions for businesses, including loans and cash management.",
-      category: {
-        id: "1",
-        name: "General",
-      },
-    },
-    {
-      id: 4,
-      question: "How do I apply for a corporate loan?",
-      answer:
-        "You can apply for a corporate loan by contacting your relationship manager or visiting a branch.",
-      category: {
-        id: "3",
-        name: "Loans",
-      },
-    },
-    {
-      id: 5,
-      question: "What documents are required for account opening?",
-      answer:
-        "Documents such as business registration, ID proof, and address proof are required.",
-      category: {
-        id: "2",
-        name: "Account Opening",
-      },
-    },
-  ];
+function FAQTable({ handleEditFAQ }: FAQTableProps) {
+  const { page, setPage } = usePagination();
+  const { data: FAQ, isLoading } = useGetFaq({ page, pageSize: 5 });
 
-  const columns = useMemo<Column<FAQ>[]>(
+  const columns = useMemo<Column<BaseFAQ>[]>(
     () => [
       {
         key: "id",
@@ -85,22 +33,47 @@ function FAQTable() {
         },
       },
       {
-        key: "category.name" as any,
+        key: "category" as any,
         label: "Category",
+        cell: (value) => {
+          return <span>{value?.name}</span>;
+        },
       },
     ],
-    []
+    [handleEditFAQ]
   );
 
-  const actions = useMemo<Action<FAQ>[]>(
+  const actions = useMemo<Action<BaseFAQ>[]>(
     () => [
-      { name: "Edit", onClick: () => {} },
+      {
+        name: "Edit",
+        onClick: function (row: BaseFAQ) {
+          handleEditFAQ(row);
+        },
+      },
       { name: "Delete", onClick: () => {} },
     ],
     []
   );
 
-  return <CustomTable<FAQ> columns={columns} body={FAQ} actions={actions} />;
+  return (
+    <>
+      <CustomTable<BaseFAQ>
+        columns={columns}
+        body={FAQ?.data ?? null}
+        actions={actions}
+        isLoading={isLoading}
+      />
+      <CustomPagination
+        limit={FAQ?.pagination.pageSize ?? 5}
+        totalCount={FAQ?.totalPages ?? 1}
+        isNext={FAQ?.hasNextPage ?? false}
+        isPrevious={FAQ?.hasPreviousPage ?? false}
+        page={FAQ?.pagination.currentPage ?? 1}
+        setPage={setPage}
+      />
+    </>
+  );
 }
 
 export default FAQTable;

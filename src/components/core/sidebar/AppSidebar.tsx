@@ -1,4 +1,4 @@
-import { type LucideIcon } from "lucide-react";
+import { Building, type LucideIcon } from "lucide-react";
 import * as React from "react";
 import {
   Sidebar,
@@ -40,7 +40,9 @@ export function AppSidebar({ sidebarData, ...props }: AppSidebarProps) {
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
-              {/* logo bar nya */}
+              <div className="text-5xl font-extrabold ml-2">
+                Mg Wai Gyi's Bank <Building />
+              </div>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

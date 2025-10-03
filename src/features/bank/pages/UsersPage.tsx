@@ -1,13 +1,25 @@
-import CustomPagination from "@/components/common/CustomPagination";
 import UsersHeader from "../components/users/UsersHeader";
 import UsersTable from "../components/users/UsersTable";
+import { useCallback, useState } from "react";
+import type { BaseUser } from "@/types/User";
 
 function UsersPage() {
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<BaseUser | null>(null);
+
+  const handleEditUser = useCallback((user: BaseUser) => {
+    setIsFormOpen(true);
+    setSelectedUser(user);
+  }, []);
+
   return (
     <div>
-      <UsersHeader />
-      <UsersTable />
-      <CustomPagination limit={5} totalCount={40} isNext isPrevious page={1} />
+      <UsersHeader
+        selectedUser={selectedUser}
+        isFormOpen={isFormOpen}
+        onOpenChange={setIsFormOpen}
+      />
+      <UsersTable handleEdit={handleEditUser} />
     </div>
   );
 }

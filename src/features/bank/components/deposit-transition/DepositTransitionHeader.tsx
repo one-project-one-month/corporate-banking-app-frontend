@@ -1,20 +1,20 @@
 import { Button } from "@/components/ui/button";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
-import OrganizationsCreateForm from "./OrganizationsCreateForm";
+import DepositTransitionCreateForm from "./DepositTransitionForm";
 import { useCallback } from "react";
-import type { BaseOrganization } from "@/types/Organization";
+import type { BaseDepositTransition } from "@/types/DepositTransition";
 
-type OrganizationsHeaderProps = {
-  selectedOrganization: BaseOrganization | null;
+type DepositTransitionHeaderProps = {
+  selectedDepositTransition: BaseDepositTransition | null;
   isFormOpen: boolean;
   onOpenChange: (open: boolean) => void;
 };
 
-function OrganizationsHeader({
-  selectedOrganization,
+function DepositTransitionHeader({
+  selectedDepositTransition,
   isFormOpen,
   onOpenChange,
-}: OrganizationsHeaderProps) {
+}: DepositTransitionHeaderProps) {
   const handleCloseDrawer = useCallback(() => {
     onOpenChange(false);
   }, []);
@@ -23,7 +23,7 @@ function OrganizationsHeader({
     <Drawer direction="right" open={isFormOpen} onOpenChange={onOpenChange}>
       <div className="flex justify-between items-center mb-4">
         <div>
-          <h1 className="text-xl font-bold">Organizations</h1>
+          <h1 className="text-xl font-bold">DepositTransition</h1>
           <p className="text-sm text-gray-500">Total: 60</p>
         </div>
         <div className="flex space-x-2">
@@ -34,8 +34,8 @@ function OrganizationsHeader({
         </div>
       </div>
       <DrawerContent>
-        <OrganizationsCreateForm
-          editOrganization={selectedOrganization}
+        <DepositTransitionCreateForm
+          editDepositTransition={selectedDepositTransition}
           handleClose={handleCloseDrawer}
         />
       </DrawerContent>
@@ -43,4 +43,4 @@ function OrganizationsHeader({
   );
 }
 
-export default OrganizationsHeader;
+export default DepositTransitionHeader;

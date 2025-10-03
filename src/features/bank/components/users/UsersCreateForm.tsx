@@ -4,10 +4,11 @@ import z from "zod";
 import { Form } from "@/components/ui/form";
 import FormTextInput from "@/components/common/form-inputs/FormTextInput";
 import { Button } from "@/components/ui/button";
-import { useCreateUser } from "@/queries/user.query";
 import FormSelectInput from "@/components/common/form-inputs/FormSelectInput";
 import FormDateInput from "@/components/common/form-inputs/FormDateInput";
 import { formatDateToYYYYMMDD } from "@/lib/helpers/dateFormat";
+import type { BaseUser } from "@/types/User";
+import { useCreateUser, useUpdateExistingUser } from "@/queries/user.query";
 
 //TODO: modify schema, need to add more form input variant (//dropdown select input type)
 
@@ -19,25 +20,42 @@ const UserSchema = z.object({
 });
 
 type UsersCreateFormProps = {
+  editUser?: BaseUser | null;
   handleClose: () => void;
 };
 
 type UserFormValues = z.infer<typeof UserSchema>;
 
-function UsersCreateForm({ handleClose }: UsersCreateFormProps) {
+function UsersCreateForm({ handleClose, editUser }: UsersCreateFormProps) {
   const form = useForm<UserFormValues>({
     resolver: zodResolver(UserSchema),
+    defaultValues: {
+      fullName: editUser?.fullName || "",
+      dateOfBirth: editUser?.dateOfBirth
+        ? new Date(editUser.dateOfBirth)
+        : new Date(),
+      genderId: editUser?.genderId ? String(editUser.genderId) : "",
+      email: editUser?.email || "",
+    },
   });
 
   const { mutate: createUser } = useCreateUser();
+  const { mutate: updateExistingUser } = useUpdateExistingUser();
 
   const handleSubmint = (data: UserFormValues) => {
-    createUser({
+    const payload = {
       fullName: data.fullName,
       dateOfBirth: formatDateToYYYYMMDD(data.dateOfBirth),
       genderId: Number(data.genderId),
       email: data.email,
-    });
+    };
+
+    if (editUser) {
+      updateExistingUser({ id: String(editUser.id), data: payload });
+      return;
+    }
+
+    createUser(payload);
   };
 
   return (
