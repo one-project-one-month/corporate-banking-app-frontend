@@ -2,20 +2,21 @@ import { Button } from "@/components/ui/button";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import FAQCreateForm from "./FAQCreateForm";
 import { useCallback, useState } from "react";
+import type { BaseFAQ } from "@/types/FAQ";
 
-function FAQHeader() {
-  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>();
+type FAQHeaderProps = {
+  selectedFAQ: BaseFAQ | null;
+  isFormOpen: boolean;
+  onOpenChange: (open: boolean) => void;
+};
 
+function FAQHeader({ selectedFAQ, isFormOpen, onOpenChange }: FAQHeaderProps) {
   const handleCloseDrawer = useCallback(() => {
-    setIsDrawerOpen(false);
+    onOpenChange(false);
   }, []);
 
   return (
-    <Drawer
-      direction="right"
-      open={isDrawerOpen}
-      onOpenChange={setIsDrawerOpen}
-    >
+    <Drawer direction="right" open={isFormOpen} onOpenChange={onOpenChange}>
       <div className="flex justify-between items-center mb-4">
         <div>
           <h1 className="text-xl font-bold">FAQ</h1>
@@ -29,7 +30,7 @@ function FAQHeader() {
         </div>
       </div>
       <DrawerContent>
-        <FAQCreateForm handleClose={handleCloseDrawer} />
+        <FAQCreateForm editFAQ={selectedFAQ} handleClose={handleCloseDrawer} />
       </DrawerContent>
     </Drawer>
   );

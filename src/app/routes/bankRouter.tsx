@@ -1,7 +1,9 @@
+import path from "path";
 import {
   BankLayout,
   BankLoginPage,
   DashboardPage,
+  DepositTransitionPage,
   FAQPage,
   OrganizationsPage,
   UsersPage,
@@ -27,6 +29,10 @@ const bankRouter = [
       {
         path: "FAQ",
         element: <FAQPage />,
+      },
+      {
+        path: "deposit-transition",
+        element: <DepositTransitionPage />,
       },
     ],
   },

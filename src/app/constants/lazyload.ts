@@ -30,4 +30,8 @@ export const FAQPage = PageLoader(
 export const BankLoginPage = PageLoader(
   lazy(() => import("@/features/bank/pages/LoginPage"))
 );
+
+export const DepositTransitionPage = PageLoader(
+  lazy(() => import("@/features/bank/pages/DepositTransitionPage"))
+);
 //* Bank related pages

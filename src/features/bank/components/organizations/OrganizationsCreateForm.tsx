@@ -1,7 +1,11 @@
 import FormTextInput from "@/components/common/form-inputs/FormTextInput";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { useCreateOrganization } from "@/queries/organization.query";
+import {
+  useCreateOrganization,
+  useUpdateExistingOrganization,
+} from "@/queries/organization.query";
+import type { BaseOrganization } from "@/types/Organization";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import z from "zod";
@@ -20,25 +24,34 @@ type OrganizationsValues = z.infer<typeof OrganizationsSchema>;
 
 type OrganizationsCreateFormProps = {
   handleClose: () => void;
+  editOrganization: BaseOrganization | null;
 };
 
 function OrganizationsCreateForm({
   handleClose,
+  editOrganization,
 }: OrganizationsCreateFormProps) {
   const form = useForm<OrganizationsValues>({
     resolver: zodResolver(OrganizationsSchema),
     defaultValues: {
-      name: "",
-      shortCode: "",
-      address: "",
-      country: "",
-      createBy: "",
+      name: editOrganization ? editOrganization.name : "",
+      shortCode: editOrganization ? editOrganization.shortcode : "",
+      address: editOrganization ? editOrganization.address : "",
+      country: editOrganization ? editOrganization.country : "",
+      createBy: editOrganization ? String(editOrganization.createdBy) : "",
     },
   });
 
   const { mutate: createOrganization } = useCreateOrganization();
+  const { mutate: updateExistingOrganization } =
+    useUpdateExistingOrganization();
 
   const handleSubmit = (data: OrganizationsValues) => {
+    if (editOrganization) {
+      updateExistingOrganization({ id: String(editOrganization.id), data });
+      return;
+    }
+
     createOrganization({ ...data });
   };
 

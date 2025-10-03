@@ -13,3 +13,14 @@ export type Pagination = {
   total: number;
   pageSize: number;
 };
+
+export type PaginationParam = {
+  page?: number;
+  pageSize?: number;
+};
+
+export type WithPagination = {
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+  totalPages: number;
+};
