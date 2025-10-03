@@ -1,13 +1,29 @@
-import CustomPagination from "@/components/common/CustomPagination";
 import OrganizationsHeader from "../components/organizations/OrganizationsHeader";
 import OrganizationsTable from "../components/organizations/OrganizationsTable";
+import { useCallback, useState } from "react";
+import type { BaseOrganization } from "@/types/Organization";
 
 function OrganizationsPage() {
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [selectedOrganization, setSelectedOrganization] =
+    useState<BaseOrganization | null>(null);
+
+  const handleEditOrganization = useCallback(
+    (organization: BaseOrganization) => {
+      setIsFormOpen(true);
+      setSelectedOrganization(organization);
+    },
+    []
+  );
+
   return (
     <div>
-      <OrganizationsHeader />
-      <OrganizationsTable />
-      <CustomPagination limit={5} totalCount={40} isNext isPrevious page={1} />
+      <OrganizationsHeader
+        selectedOrganization={selectedOrganization}
+        isFormOpen={isFormOpen}
+        onOpenChange={setIsFormOpen}
+      />
+      <OrganizationsTable handleEdit={handleEditOrganization} />
     </div>
   );
 }

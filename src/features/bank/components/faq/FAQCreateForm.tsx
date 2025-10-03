@@ -1,7 +1,8 @@
 import FormTextInput from "@/components/common/form-inputs/FormTextInput";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { useCreateFAQ } from "@/queries/FAQ.query";
+import { useCreateFaq, useUpdateExistingFaq } from "@/queries/FAQ.query";
+import type { BaseFAQ } from "@/types/FAQ";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import z from "zod";
@@ -18,21 +19,27 @@ type FAQValues = z.infer<typeof FAQSchema>;
 
 type FAQCreateFormProps = {
   handleClose: () => void;
+  editFAQ: BaseFAQ | null;
 };
 
-function FAQCreateForm({ handleClose }: FAQCreateFormProps) {
+function FAQCreateForm({ handleClose, editFAQ }: FAQCreateFormProps) {
   const form = useForm<FAQValues>({
     resolver: zodResolver(FAQSchema),
     defaultValues: {
-      question: "",
-      answer: "",
-      categoryId: "",
+      question: editFAQ?.question ?? "",
+      answer: editFAQ?.answer ?? "",
+      categoryId: editFAQ?.category.id ?? "",
     },
   });
 
-  const { mutate: createFAQ } = useCreateFAQ();
+  const { mutate: createFAQ } = useCreateFaq();
+  const { mutate: updateExistingFaq } = useUpdateExistingFaq();
 
   const handleSubmit = (data: FAQValues) => {
+    if (editFAQ) {
+      updateExistingFaq({ id: editFAQ.id, data });
+      return;
+    }
     createFAQ({ ...data });
   };
 

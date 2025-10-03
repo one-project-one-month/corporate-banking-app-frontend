@@ -1,8 +1,4 @@
-import {
-  SidebarHeader,
-  SidebarInset,
-  SidebarProvider,
-} from "@/components/ui/sidebar";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { Users2 } from "lucide-react";
 import { useMemo } from "react";
 import { Outlet } from "react-router-dom";

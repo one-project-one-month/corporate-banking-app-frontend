@@ -1,21 +1,26 @@
 import { Button } from "@/components/ui/button";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import UsersCreateForm from "./UsersCreateForm";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
+import type { BaseUser } from "@/types/User";
 
-function UsersHeader() {
-  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>();
+type UsersHeaderProps = {
+  selectedUser?: BaseUser | null;
+  isFormOpen: boolean;
+  onOpenChange: (open: boolean) => void;
+};
 
+function UsersHeader({
+  isFormOpen,
+  onOpenChange,
+  selectedUser,
+}: UsersHeaderProps) {
   const handleCloseDrawer = useCallback(() => {
-    setIsDrawerOpen(false);
+    onOpenChange(false);
   }, []);
 
   return (
-    <Drawer
-      direction="right"
-      open={isDrawerOpen}
-      onOpenChange={setIsDrawerOpen}
-    >
+    <Drawer direction="right" open={isFormOpen} onOpenChange={onOpenChange}>
       <div className="flex justify-between items-center mb-4">
         <div>
           <h1 className="text-xl font-bold">Users</h1>
@@ -29,7 +34,10 @@ function UsersHeader() {
         </div>
       </div>
       <DrawerContent>
-        <UsersCreateForm handleClose={handleCloseDrawer} />
+        <UsersCreateForm
+          editUser={selectedUser}
+          handleClose={handleCloseDrawer}
+        />
       </DrawerContent>
     </Drawer>
   );

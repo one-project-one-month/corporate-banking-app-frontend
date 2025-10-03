@@ -9,12 +9,22 @@ import type { Action, Column } from "@/types/Table";
 import CustomTableRow from "./CustomTableRow";
 import { cn } from "@/lib/utils";
 import TableSkeleton from "./TableSkeleton";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { ChevronDown } from "lucide-react";
+import { useEffect, useState } from "react";
 
 type CustomTableProps<T extends Record<string, any>> = {
   columns: Column<T>[];
   body: T[] | null;
   actions?: Action<T>[];
   isLoading?: boolean;
+  isEditColunm?: boolean;
 };
 
 //this is designed to use as a dynamic table component, this might lead to messy logic in future but for light weight usage this is fine to use for now
@@ -24,21 +34,67 @@ function CustomTable<T extends Record<string, any>>({
   body,
   actions = [],
   isLoading = false,
+  isEditColunm = true,
 }: CustomTableProps<T>) {
+  //** The pain of no using react table TwT */
+  const [visibleCol, setVisibleCol] = useState<number[]>(
+    columns.map((_, i) => i)
+  );
+
+  const handleToggleVisibility = (index: number) => {
+    setVisibleCol((prev) => {
+      const newCols = prev.includes(index)
+        ? prev.filter((colIndex) => colIndex !== index)
+        : [...prev, index];
+      return newCols;
+    });
+  };
+
   return (
-    <div className="rounded-md border w-full">
-      <Table className="max-w-full">
+    <div className="rounded-md w-full">
+      <div className="w-full mb-3 flex justify-end">
+        {isEditColunm && (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="ml-auto">
+                Columns <ChevronDown />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {columns.map((col) => {
+                return (
+                  <DropdownMenuCheckboxItem
+                    key={col.label}
+                    className="capitalize"
+                    checked={visibleCol.includes(columns.indexOf(col))}
+                    onCheckedChange={() =>
+                      handleToggleVisibility(columns.indexOf(col))
+                    }
+                  >
+                    {col.label}
+                  </DropdownMenuCheckboxItem>
+                );
+              })}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
+      </div>
+      <Table className="max-w-full border">
         <TableHeader>
-          <TableRow>
-            {columns.map((col) => (
-              <TableHead
-                className={cn("py-5 max-w-[200px]", col.headerClassName)}
-                key={col.key.toString()}
-              >
-                {col.label}
-              </TableHead>
-            ))}
-            {actions.length > 0 && <TableHead>Actions</TableHead>}
+          <TableRow className="[&>th]:border-r">
+            {columns.map((col, i) => {
+              if (!visibleCol.includes(i)) return;
+
+              return (
+                <TableHead
+                  className={cn("py-5 max-w-[200px]", col.headerClassName)}
+                  key={col.key.toString()}
+                >
+                  {col.label}
+                </TableHead>
+              );
+            })}
+            {actions.length > 0 && <TableHead></TableHead>}
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -55,14 +111,18 @@ function CustomTable<T extends Record<string, any>>({
               </TableHead>
             </TableRow>
           ) : (
-            body?.map((row, i) => (
-              <CustomTableRow
-                row={row}
-                columns={columns as any}
-                key={i}
-                actions={actions}
-              />
-            ))
+            body?.map((row, i) => {
+              if (!visibleCol.includes(i)) return;
+
+              return (
+                <CustomTableRow
+                  row={row}
+                  columns={columns.filter((_, ci) => visibleCol.includes(ci))}
+                  key={i}
+                  actions={actions}
+                />
+              );
+            })
           )}
         </TableBody>
       </Table>
