@@ -17,6 +17,18 @@ export const createFaq = async (payload: FAQCreatePayload) => {
   }
 };
 
+export const deleteFaq = async (id: number) => {
+  try {
+    const res = await API.delete(`/faqs/${id}`);
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(error.response?.data?.message || error.message);
+    }
+
+    throw new Error(String(error));
+  }
+};
+
 // Get FAQs (with pagination)
 export const getFaq = async (params: PaginationParam) => {
   try {
@@ -32,7 +44,7 @@ export const getFaq = async (params: PaginationParam) => {
 };
 
 // Update FAQ
-export const updateExistingFaq = async (id: string, data: FAQCreatePayload) => {
+export const updateExistingFaq = async (id: number, data: FAQCreatePayload) => {
   try {
     const res = await API.put(`/faqs/${id}`, data);
     return res.data;

@@ -12,7 +12,7 @@ import z from "zod";
 const FAQSchema = z.object({
   question: z.string(),
   answer: z.string(),
-  categoryId: z.string(),
+  categoryId: z.number(),
 });
 
 type FAQValues = z.infer<typeof FAQSchema>;
@@ -28,7 +28,7 @@ function FAQCreateForm({ handleClose, editFAQ }: FAQCreateFormProps) {
     defaultValues: {
       question: editFAQ?.question ?? "",
       answer: editFAQ?.answer ?? "",
-      categoryId: editFAQ?.category.id ?? "",
+      categoryId: editFAQ?.category.id ?? undefined,
     },
   });
 

@@ -4,7 +4,10 @@ import type { Action, Column } from "@/types/Table";
 import { ExpandableTextCell } from "@/components/common/table/CustomCells";
 import usePagination from "@/hooks/usePagination";
 import CustomPagination from "@/components/common/CustomPagination";
-import { useGetDeposits } from "@/queries/depositTransition.query";
+import {
+  useDeleteDeposit,
+  useGetDeposits,
+} from "@/queries/depositTransition.query";
 import type { BaseDepositTransition } from "@/types/DepositTransition";
 
 type DepositTransitionTableProps = {
@@ -14,6 +17,7 @@ type DepositTransitionTableProps = {
 function DepositTransitionTable({ handleEdit }: DepositTransitionTableProps) {
   const { page, setPage } = usePagination();
   const { data: deposits, isLoading } = useGetDeposits({ page, pageSize: 5 });
+  const { mutate: deleteDeposit } = useDeleteDeposit();
 
   const columns = useMemo<Column<BaseDepositTransition>[]>(
     () => [
@@ -48,11 +52,15 @@ function DepositTransitionTable({ handleEdit }: DepositTransitionTableProps) {
     () => [
       {
         name: "Edit",
-        onClick: (row: BaseDepositTransition) => handleEdit(row),
+        onClick: function (row: BaseDepositTransition) {
+          handleEdit(row);
+        },
       },
       {
         name: "Delete",
-        onClick: (row: BaseDepositTransition) => {},
+        onClick: function (row: BaseDepositTransition) {
+          deleteDeposit(row.id);
+        },
       },
     ],
     [handleEdit]

@@ -3,15 +3,15 @@ import type { BaseResponseWithPagination } from "./Common";
 export type FAQCreatePayload = {
   question: string;
   answer: string;
-  categoryId: string;
+  categoryId: number;
 };
 
 export type BaseFAQ = {
-  id: string;
+  id: number;
   question: string;
   answer: string;
   category: {
-    id: string;
+    id: number;
     name: string;
   };
   createdAt: string;

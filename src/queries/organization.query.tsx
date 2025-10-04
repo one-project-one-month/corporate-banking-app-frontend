@@ -1,6 +1,7 @@
 import { errorToast } from "@/lib/helpers/customToast";
 import {
   createOrganization,
+  deleteOrganization,
   getOrganization,
   updateExistingOrganization,
 } from "@/services/organization.service";
@@ -33,7 +34,7 @@ export const useUpdateExistingOrganization = () => {
       id,
       data,
     }: {
-      id: string;
+      id: number;
       data: CreateOrganizationPayload;
     }) => updateExistingOrganization(id, data),
 
@@ -65,6 +66,22 @@ export const useGetOrganizations = (params: PaginationParam) => {
         hasNextPage: (params?.page ?? 1) < totalPages,
         hasPreviousPage: (params?.page ?? 1) > 1,
       };
+    },
+  });
+};
+
+export const useDeleteOrganization = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (id: number) => deleteOrganization(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["organizations"],
+        exact: false,
+      });
+    },
+    onError: (err) => {
+      errorToast("Error Deleting Organization", err.message);
     },
   });
 };

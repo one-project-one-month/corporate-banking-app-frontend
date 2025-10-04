@@ -48,7 +48,7 @@ function OrganizationsCreateForm({
 
   const handleSubmit = (data: OrganizationsValues) => {
     if (editOrganization) {
-      updateExistingOrganization({ id: String(editOrganization.id), data });
+      updateExistingOrganization({ id: editOrganization.id, data });
       return;
     }
 
