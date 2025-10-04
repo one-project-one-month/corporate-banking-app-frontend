@@ -24,7 +24,7 @@ function LoginForm() {
     },
   });
 
-  const { mutate: login } = useBankAdminLogin();
+  const { mutate: login, isPending } = useBankAdminLogin();
 
   const onSubmit = (data: LoginFormValues) => {
     login({ ...data });
@@ -47,7 +47,7 @@ function LoginForm() {
         <Button
           type="submit"
           className="w-full"
-          disabled={form.formState.isSubmitting}
+          disabled={!(form.formState.isValid && !isPending)}
         >
           Login
         </Button>

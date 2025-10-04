@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import CustomTable from "@/components/common/table/CustomTable";
 import type { Action, Column } from "@/types/Table";
-import { useGetUsers } from "@/queries/user.query";
+import { useDeleteUser, useGetUsers } from "@/queries/user.query";
 import type { BaseUser } from "@/types/User";
 import CustomPagination from "@/components/common/CustomPagination";
 import usePagination from "@/hooks/usePagination";
@@ -13,6 +13,7 @@ type UsersTableProps = {
 function UsersTable({ handleEdit }: UsersTableProps) {
   const { page, setPage } = usePagination();
   const { data: users, isLoading } = useGetUsers({ page, pageSize: 5 });
+  const { mutate: deleteUser } = useDeleteUser();
 
   const columns = useMemo<Column<BaseUser>[]>(
     () => [
@@ -55,7 +56,12 @@ function UsersTable({ handleEdit }: UsersTableProps) {
           handleEdit(row);
         },
       },
-      { name: "Delete", onClick: () => {} },
+      {
+        name: "Delete",
+        onClick: function (row: BaseUser) {
+          deleteUser(row.id);
+        },
+      },
     ],
     [handleEdit]
   );

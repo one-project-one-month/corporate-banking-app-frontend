@@ -4,11 +4,13 @@ import Cookies from "js-cookie";
 type AuthState = {
   userId: string | null;
   accessToken: string | null;
+  refreshToken: string | null;
 };
 
 const initialState: AuthState = {
   userId: Cookies.get("user_id") ?? null,
   accessToken: Cookies.get("access_token") ?? null,
+  refreshToken: Cookies.get("refresh_token") ?? null,
 };
 
 const authSlice = createSlice({
@@ -18,6 +20,10 @@ const authSlice = createSlice({
     setAccessToken: (state, action: PayloadAction<string>) => {
       state.accessToken = action.payload;
       Cookies.set("access_token", action.payload, { expires: 7 });
+    },
+    setRefreshToken: (state, action: PayloadAction<string>) => {
+      state.refreshToken = action.payload;
+      Cookies.set("refresh_token", action.payload);
     },
     setUserId: (state, action: PayloadAction<string>) => {
       state.userId = action.payload;
@@ -32,5 +38,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { setAccessToken, setUserId, logout } = authSlice.actions;
+export const { setAccessToken, setRefreshToken, setUserId, logout } =
+  authSlice.actions;
 export default authSlice.reducer;

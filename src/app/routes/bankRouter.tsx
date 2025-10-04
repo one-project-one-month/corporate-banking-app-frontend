@@ -1,4 +1,3 @@
-import path from "path";
 import {
   BankLayout,
   BankLoginPage,
@@ -8,11 +7,16 @@ import {
   OrganizationsPage,
   UsersPage,
 } from "../constants/lazyload";
+import ProtectedRoute from "@/components/common/ProtectedRoute";
 
 const bankRouter = [
   {
     path: "/bank",
-    element: <BankLayout />,
+    element: (
+      <ProtectedRoute>
+        <BankLayout />
+      </ProtectedRoute>
+    ),
     children: [
       {
         index: true,

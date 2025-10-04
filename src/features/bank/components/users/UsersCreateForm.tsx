@@ -51,7 +51,7 @@ function UsersCreateForm({ handleClose, editUser }: UsersCreateFormProps) {
     };
 
     if (editUser) {
-      updateExistingUser({ id: String(editUser.id), data: payload });
+      updateExistingUser({ id: editUser.id, data: payload });
       return;
     }
 

@@ -7,7 +7,6 @@ import {
 } from "@/services/depositTransition.service";
 import type { PaginationParam, WithPagination } from "@/types/Common";
 import type {
-  BaseDepositTransition,
   CreateDepositPayload,
   GetAllDeposit,
 } from "@/types/DepositTransition";
@@ -33,7 +32,7 @@ export const useUpdateDeposit = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: CreateDepositPayload }) =>
+    mutationFn: ({ id, data }: { id: number; data: CreateDepositPayload }) =>
       updateExistiongDeposit(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["deposits"], exact: false });
@@ -49,7 +48,7 @@ export const useDeleteDeposit = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (id: string) => deleteDeposit(id),
+    mutationFn: (id: number) => deleteDeposit(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["deposits"], exact: false });
     },

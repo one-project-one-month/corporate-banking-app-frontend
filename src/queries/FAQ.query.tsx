@@ -1,5 +1,10 @@
 import { errorToast } from "@/lib/helpers/customToast";
-import { createFaq, getFaq, updateExistingFaq } from "@/services/FAQ.service";
+import {
+  createFaq,
+  deleteFaq,
+  getFaq,
+  updateExistingFaq,
+} from "@/services/FAQ.service";
 import type { PaginationParam, WithPagination } from "@/types/Common";
 import type { GetAllFAQResponse, FAQCreatePayload } from "@/types/FAQ";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -19,12 +24,25 @@ export const useCreateFaq = () => {
   });
 };
 
+export const useDeleteFaq = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (id: number) => deleteFaq(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["faqs"], exact: false });
+    },
+    onError: (err: any) => {
+      errorToast("Error Deleting FAQ", err.message);
+    },
+  });
+};
+
 // Update FAQ
 export const useUpdateExistingFaq = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: FAQCreatePayload }) =>
+    mutationFn: ({ id, data }: { id: number; data: FAQCreatePayload }) =>
       updateExistingFaq(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["faqs"], exact: false });

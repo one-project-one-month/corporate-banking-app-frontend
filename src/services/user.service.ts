@@ -30,11 +30,24 @@ export const getUsers = async (params: PaginationParam) => {
 };
 
 export const updateExistingUser = async (
-  id: string,
+  id: number,
   data: CreateUserPayload
 ) => {
   try {
     const res = await API.put(`/users/${id}`, data);
+    return res.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(error.response?.data?.message || error.message);
+    }
+
+    throw new Error(String(error));
+  }
+};
+
+export const deleteUser = async (id: number) => {
+  try {
+    const res = await API.delete(`/users/${id}`);
     return res.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {

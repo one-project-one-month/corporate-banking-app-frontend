@@ -13,7 +13,7 @@ import z from "zod";
 //TODO: modify schema,
 
 const DepositTransitionSchema = z.object({
-  accountTypeId: z.string(),
+  accountTypeId: z.number(),
   accountNumber: z.string(),
   name: z.string(),
   amount: z.number().min(0, "Amount must be a positive number"),
@@ -34,7 +34,7 @@ function DepositTransitionCreateForm({
   const form = useForm<DepositTransitionValues>({
     resolver: zodResolver(DepositTransitionSchema),
     defaultValues: {
-      accountTypeId: editDepositTransition?.accountType.id ?? "",
+      accountTypeId: editDepositTransition?.accountType.id ?? undefined,
       accountNumber: editDepositTransition?.accountNumber ?? "",
       name: editDepositTransition?.name ?? "",
       amount: editDepositTransition?.amount ?? 0,

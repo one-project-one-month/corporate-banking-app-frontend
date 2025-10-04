@@ -1,4 +1,3 @@
-import CustomPagination from "@/components/common/CustomPagination";
 import FAQHeader from "../components/faq/FAQHeader";
 import FAQTable from "../components/faq/FAQTable";
 import { useCallback, useState } from "react";
@@ -21,7 +20,6 @@ function FAQPage() {
         onOpenChange={setIsFormOpen}
       />
       <FAQTable handleEditFAQ={handleEditFAQ} />
-      <CustomPagination limit={5} totalCount={40} isNext isPrevious page={1} />
     </div>
   );
 }

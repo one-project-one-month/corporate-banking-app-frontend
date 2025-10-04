@@ -1,6 +1,7 @@
 import { errorToast } from "@/lib/helpers/customToast";
 import {
   createUser,
+  deleteUser,
   getUsers,
   updateExistingUser,
 } from "@/services/user.service";
@@ -25,7 +26,7 @@ export const useCreateUser = () => {
 export const useUpdateExistingUser = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: CreateUserPayload }) =>
+    mutationFn: ({ id, data }: { id: number; data: CreateUserPayload }) =>
       updateExistingUser(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["users"], exact: false });
@@ -50,6 +51,20 @@ export const useGetUsers = (params: PaginationParam) => {
         hasNextPage: (params?.page ?? 1) < totalPages,
         hasPreviousPage: (params?.page ?? 1) > 1,
       };
+    },
+  });
+};
+
+export const useDeleteUser = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (id: number) => deleteUser(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["users"], exact: false });
+    },
+    onError: (err) => {
+      errorToast("Error Deleting User", err.message);
     },
   });
 };
