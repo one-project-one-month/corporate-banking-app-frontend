@@ -1,9 +1,9 @@
 import type { BaseResponseWithPagination } from "./Common";
 
 export type BaseDepositTransition = {
-  id: string;
+  id: number;
   accountType: {
-    id: string;
+    id: number;
     name: string;
   };
   accountNumber: string;
@@ -15,7 +15,7 @@ export type BaseDepositTransition = {
 };
 
 export type CreateDepositPayload = {
-  accountTypeId: string;
+  accountTypeId: number;
   accountNumber: string;
   name: string;
   amount: number;

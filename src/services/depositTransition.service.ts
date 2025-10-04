@@ -31,7 +31,7 @@ export const getDeposits = async (params: PaginationParam) => {
 
 // Update Deposit
 export const updateExistiongDeposit = async (
-  id: string,
+  id: number,
   data: CreateDepositPayload
 ) => {
   try {
@@ -46,7 +46,7 @@ export const updateExistiongDeposit = async (
 };
 
 // Delete Deposit
-export const deleteDeposit = async (id: string) => {
+export const deleteDeposit = async (id: number) => {
   try {
     const res = await API.delete(`/deposit/${id}`);
     return res.data;

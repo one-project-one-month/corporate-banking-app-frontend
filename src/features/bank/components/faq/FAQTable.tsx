@@ -1,8 +1,8 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import CustomTable from "@/components/common/table/CustomTable";
 import type { Action, Column } from "@/types/Table";
 import { ExpandableTextCell } from "@/components/common/table/CustomCells";
-import { useGetFaq } from "@/queries/FAQ.query";
+import { useDeleteFaq, useGetFaq } from "@/queries/FAQ.query";
 import usePagination from "@/hooks/usePagination";
 import CustomPagination from "@/components/common/CustomPagination";
 import type { BaseFAQ } from "@/types/FAQ";
@@ -14,6 +14,7 @@ type FAQTableProps = {
 function FAQTable({ handleEditFAQ }: FAQTableProps) {
   const { page, setPage } = usePagination();
   const { data: FAQ, isLoading } = useGetFaq({ page, pageSize: 5 });
+  const { mutate: deleteFaq } = useDeleteFaq();
 
   const columns = useMemo<Column<BaseFAQ>[]>(
     () => [
@@ -51,7 +52,12 @@ function FAQTable({ handleEditFAQ }: FAQTableProps) {
           handleEditFAQ(row);
         },
       },
-      { name: "Delete", onClick: () => {} },
+      {
+        name: "Delete",
+        onClick: function (row: BaseFAQ) {
+          deleteFaq(row.id);
+        },
+      },
     ],
     []
   );

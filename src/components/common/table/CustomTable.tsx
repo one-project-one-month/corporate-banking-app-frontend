@@ -27,7 +27,7 @@ type CustomTableProps<T extends Record<string, any>> = {
   isEditColunm?: boolean;
 };
 
-//this is designed to use as a dynamic table component, this might lead to messy logic in future but for light weight usage this is fine to use for now
+//** this is designed to use as a dynamic table component, this might lead to messy logic in future but for light weight usage this is fine to use for now
 
 function CustomTable<T extends Record<string, any>>({
   columns,

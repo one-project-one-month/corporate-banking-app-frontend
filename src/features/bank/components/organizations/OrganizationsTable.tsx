@@ -2,7 +2,10 @@ import { useMemo, useState } from "react";
 import CustomTable from "@/components/common/table/CustomTable";
 import type { Action, Column } from "@/types/Table";
 import type { BaseOrganization } from "@/types/Organization";
-import { useGetOrganizations } from "@/queries/organization.query";
+import {
+  useDeleteOrganization,
+  useGetOrganizations,
+} from "@/queries/organization.query";
 import usePagination from "@/hooks/usePagination";
 import CustomPagination from "@/components/common/CustomPagination";
 
@@ -16,6 +19,7 @@ function OrganizationsTable({ handleEdit }: OrganizationsTableProps) {
     page,
     pageSize: 5,
   });
+  const { mutate: deleteOrganization } = useDeleteOrganization();
 
   const columns = useMemo<Column<BaseOrganization>[]>(
     () => [
@@ -61,7 +65,12 @@ function OrganizationsTable({ handleEdit }: OrganizationsTableProps) {
           handleEdit(row);
         },
       },
-      { name: "Delete", onClick: () => {} },
+      {
+        name: "Delete",
+        onClick: function (row: BaseOrganization) {
+          deleteOrganization(row.id);
+        },
+      },
     ],
     []
   );
