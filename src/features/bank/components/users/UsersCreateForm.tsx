@@ -77,9 +77,12 @@ function UsersCreateForm({ handleClose, editUser }: UsersCreateFormProps) {
             <FormDateInput
               name="dateOfBirth"
               label="DOB"
+              type="date"
               placeholder="Enter your date of birth"
               form={form}
               wrapperClass="mb-4"
+              minDate={new Date("1950-01-01")}
+              maxDate={new Date()}
             />
             <FormSelectInput
               name="genderId"
