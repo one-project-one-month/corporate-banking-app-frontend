@@ -35,6 +35,8 @@ export type FormInputProps<T extends FieldValues> = Omit<
   type?: HTMLInputTypeAttribute;
   wrapperClass?: string;
   labelClass?: string;
+  minDate?: Date;
+  maxDate?: Date;
 };
 
 //formating date  : exported for default : later to confirm
@@ -53,6 +55,8 @@ function FormDateInput<T extends FieldValues>({
   form,
   name,
   label,
+  minDate,
+  maxDate,
   type,
   wrapperClass,
   labelClass,
@@ -124,6 +128,12 @@ function FormDateInput<T extends FieldValues>({
                       setValue(formatDate(date));
                       setOpen(false);
                       field.onChange(date);
+                    }}
+                    disabled={(date) => {
+                      return (
+                        ((minDate && date < minDate) ?? false) ||
+                        ((maxDate && date > maxDate) ?? false)
+                      );
                     }}
                   />
                 </PopoverContent>
