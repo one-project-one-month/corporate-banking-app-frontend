@@ -1,4 +1,5 @@
 import FormTextInput from "@/components/common/form-inputs/FormTextInput";
+import FormTextArea from "@/components/common/form-inputs/FormTextArea";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useCreateFaq, useUpdateExistingFaq } from "@/queries/FAQ.query";
@@ -52,14 +53,14 @@ function FAQCreateForm({ handleClose, editFAQ }: FAQCreateFormProps) {
         >
           <div>
             <h1 className="text-2xl font-bold mb-6">Create FAQ</h1>
-            <FormTextInput
+            <FormTextArea
               name="question"
               label="Question"
               placeholder="Enter FAQ question"
               form={form}
               wrapperClass="mb-4"
             />
-            <FormTextInput
+            <FormTextArea
               name="answer"
               label="Answer"
               placeholder="Fill Answer"

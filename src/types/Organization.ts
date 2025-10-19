@@ -2,18 +2,25 @@ import type { BaseResponseWithPagination } from "./Common";
 
 export type CreateOrganizationPayload = {
   name: string;
-  shortCode: string;
+  selectOrganizationType: string;
+  selectDate: string;
   address: string;
-  country: string;
-  createBy: string;
+  fullName: string;
+  registerEmail: string;
+  phoneNumber: string;
+  userName: string;
 };
 
 export type BaseOrganization = {
   id: number;
   name: string;
-  shortcode: string;
+  selectOrganizationType: string;
+  selectDtate: string;
   address: string;
-  country: string;
+  fullName: string;
+  registerEmail: string;
+  phoneNumber: string;
+  userName: string;
   createdAt: string;
   updatedAt: string;
   createdBy: number;
