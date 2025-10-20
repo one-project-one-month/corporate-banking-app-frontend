@@ -19,7 +19,7 @@ import TableSkeleton from "./TableSkeleton";
 // import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 
-type CustomTableProps<T extends Record<string, any>> = {
+type CustomTableProps<T extends Record<string, unknown>> = {
   columns: Column<T>[];
   body: T[] | null;
   actions?: Action<T>[];
@@ -29,7 +29,7 @@ type CustomTableProps<T extends Record<string, any>> = {
 
 //** this is designed to use as a dynamic table component, this might lead to messy logic in future but for light weight usage this is fine to use for now
 
-function CustomTable<T extends Record<string, any>>({
+function CustomTable<T extends Record<string, unknown>>({
   columns,
   body,
   actions = [],

@@ -9,13 +9,13 @@ import { TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import type { Action, Column } from "@/types/Table";
 
-type CustomTableRowProps<T extends Record<string, any>> = {
+type CustomTableRowProps<T extends Record<string, unknown>> = {
   columns: Column<T>[];
   row: T;
   actions: Action<T>[];
 };
 
-function CustomTableRow<T extends Record<string, any>>({
+function CustomTableRow<T extends Record<string, unknown>>({
   columns,
   row,
   actions,
