@@ -1,6 +1,8 @@
 import FormTextInput from "@/components/common/form-inputs/FormTextInput";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
+import FormTextArea from "@/components/common/form-inputs/FormTextArea";
+import FormDateInput from "@/components/common/form-inputs/FormDateInput";
 import {
   useCreateOrganization,
   useUpdateExistingOrganization,
@@ -14,10 +16,13 @@ import z from "zod";
 
 const OrganizationsSchema = z.object({
   name: z.string().nonempty(),
-  shortCode: z.string().nonempty(),
+  selectOrganizationType: z.string().nonempty(),
+  selectDate: z.string().nonempty(),
   address: z.string().nonempty(),
-  country: z.string().nonempty(),
-  createBy: z.string().nonempty(),
+  fullName: z.string().nonempty(),
+  registerEmail: z.string().nonempty(),
+  phoneNumber: z.string().nonempty(),
+  userName: z.string().nonempty(),
 });
 
 type OrganizationsValues = z.infer<typeof OrganizationsSchema>;
@@ -35,10 +40,15 @@ function OrganizationsCreateForm({
     resolver: zodResolver(OrganizationsSchema),
     defaultValues: {
       name: editOrganization ? editOrganization.name : "",
-      shortCode: editOrganization ? editOrganization.shortcode : "",
+      selectOrganizationType: editOrganization
+        ? editOrganization.selectOrganizationType
+        : "",
+      selectDate: editOrganization ? editOrganization.selectDtate : "",
       address: editOrganization ? editOrganization.address : "",
-      country: editOrganization ? editOrganization.country : "",
-      createBy: editOrganization ? String(editOrganization.createdBy) : "",
+      fullName: editOrganization ? editOrganization.fullName : "",
+      registerEmail: editOrganization ? editOrganization.registerEmail : "",
+      phoneNumber: editOrganization ? editOrganization.phoneNumber : "",
+      userName: editOrganization ? editOrganization.userName : "",
     },
   });
 
@@ -72,30 +82,55 @@ function OrganizationsCreateForm({
               wrapperClass="mb-4"
             />
             <FormTextInput
-              name="shortCode"
-              label="Short Code"
-              placeholder="Enter short code"
+              name="selectOrganizationType"
+              label="Organization Type"
+              placeholder="select"
               form={form}
               wrapperClass="mb-4"
             />
-            <FormTextInput
+            <FormDateInput
+              name="selectDate"
+              label="Organization Registered Date"
+              placeholder="select"
+              form={form}
+              wrapperClass="mb-4"
+            />
+
+            <FormTextArea
               name="address"
               label="Address"
               placeholder="Enter address"
               form={form}
               wrapperClass="mb-4"
             />
+
             <FormTextInput
-              name="country"
-              label="Country"
-              placeholder="Enter country"
+              name="fullName"
+              label="Org Admin's Full Name"
+              placeholder="Enter full name"
+              form={form}
+              wrapperClass="mb-4"
+            />
+
+            <FormTextInput
+              name="registerEmail"
+              label="Org Admin's Registered Email"
+              placeholder="Enter email"
               form={form}
               wrapperClass="mb-4"
             />
             <FormTextInput
-              name="createBy"
-              label="Create By"
-              placeholder="Create by"
+              name="phoneNumber"
+              label="Org Admin's Registered Phone Number"
+              placeholder="Enter phone number"
+              form={form}
+              wrapperClass="mb-4"
+            />
+
+            <FormTextInput
+              name="userName"
+              label="UserName"
+              placeholder="Enter user name"
               form={form}
               wrapperClass="mb-4"
             />
@@ -104,7 +139,7 @@ function OrganizationsCreateForm({
             <Button
               type="button"
               onClick={handleClose}
-              className="block w-full mb-4  bg-gray-300 hover:bg-gray-400"
+              className="block w-full mb-4  bg-gray-300 hover:bg-gray-400 rounded-sm"
             >
               Cancel
             </Button>

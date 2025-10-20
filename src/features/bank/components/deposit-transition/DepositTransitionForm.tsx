@@ -1,4 +1,5 @@
 import FormTextInput from "@/components/common/form-inputs/FormTextInput";
+import FormTextArea from "@/components/common/form-inputs/FormTextArea";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import {
@@ -92,7 +93,7 @@ function DepositTransitionCreateForm({
               form={form}
               wrapperClass="mb-4"
             />
-            <FormTextInput
+            <FormTextArea
               name="note"
               label="Note"
               placeholder="Enter Note"
