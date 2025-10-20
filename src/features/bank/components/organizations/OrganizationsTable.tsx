@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import CustomTable from "@/components/common/table/CustomTable";
 import type { Action, Column } from "@/types/Table";
 import type { BaseOrganization } from "@/types/Organization";
@@ -32,21 +32,34 @@ function OrganizationsTable({ handleEdit }: OrganizationsTableProps) {
         label: "Organization Name",
       },
       {
-        key: "shortcode",
-        label: "Shortcode",
-        className: "text-center",
-        headerClassName: "text-center",
+        key: "selectOrganizationType",
+        label: "Organization Type",
       },
+
+      { key: "fullName", label: "FullName" },
+      {
+        key: "userName",
+        label: "UserName",
+      },
+      {
+        key: "registerEmail",
+        label: "Email",
+      },
+      {
+        key: "phoneNumber",
+        label: "Phone Number",
+      },
+
+      {
+        key: "selectDtate",
+        label: "Date",
+      },
+
       {
         key: "address",
         label: "Address",
       },
-      {
-        key: "country",
-        label: "Country",
-        className: "text-center",
-        headerClassName: "text-center",
-      },
+
       {
         key: "createdBy",
         label: "Created By",

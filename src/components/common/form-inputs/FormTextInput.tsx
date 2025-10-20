@@ -60,7 +60,7 @@ function FormTextInput<T extends FieldValues>({
                 {...field}
                 {...props}
                 className={cn(
-                  "border-gray-300 rounded-lg transition-all pr-10",
+                  "border-gray-300 rounded-sm transition-all pr-10",
                   props.className
                 )}
                 {...register(name, registerOptions)}

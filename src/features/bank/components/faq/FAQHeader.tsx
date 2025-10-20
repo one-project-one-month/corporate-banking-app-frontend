@@ -1,8 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import FAQCreateForm from "./FAQCreateForm";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import type { BaseFAQ } from "@/types/FAQ";
+import CreateButton from "@/components/common/Button";
+import SearchInput from "@/components/common/Search";
 
 type FAQHeaderProps = {
   selectedFAQ: BaseFAQ | null;
@@ -22,12 +24,16 @@ function FAQHeader({ selectedFAQ, isFormOpen, onOpenChange }: FAQHeaderProps) {
           <h1 className="text-xl font-bold">FAQ</h1>
           <p className="text-sm text-gray-500">Total: 60</p>
         </div>
-        <div className="flex space-x-2">
-          <DrawerTrigger asChild>
-            <Button variant="default">Create</Button>
-          </DrawerTrigger>
-          <Button variant="secondary">Filter</Button>
-        </div>
+        <DrawerTrigger asChild>
+          <CreateButton />
+        </DrawerTrigger>
+      </div>
+
+      <div className="flex justify-end gap-6">
+        <SearchInput />
+        <Button className="w-[148px] h-[42px] bg-[#E5E5E5]" variant="secondary">
+          Filter
+        </Button>
       </div>
       <DrawerContent>
         <FAQCreateForm editFAQ={selectedFAQ} handleClose={handleCloseDrawer} />

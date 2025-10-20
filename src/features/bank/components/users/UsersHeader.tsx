@@ -3,6 +3,8 @@ import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import UsersCreateForm from "./UsersCreateForm";
 import { useCallback } from "react";
 import type { BaseUser } from "@/types/User";
+import CreateButton from "@/components/common/Button";
+import SearchInput from "@/components/common/Search";
 
 type UsersHeaderProps = {
   selectedUser?: BaseUser | null;
@@ -26,12 +28,16 @@ function UsersHeader({
           <h1 className="text-xl font-bold">Users</h1>
           <p className="text-sm text-gray-500">Total: 60</p>
         </div>
-        <div className="flex space-x-2">
-          <DrawerTrigger asChild>
-            <Button variant="default">Create</Button>
-          </DrawerTrigger>
-          <Button variant="secondary">Filter</Button>
-        </div>
+        <DrawerTrigger asChild>
+          <CreateButton />
+        </DrawerTrigger>
+      </div>
+
+      <div className="flex justify-end gap-6">
+        <SearchInput />
+        <Button className="w-[148px] h-[42px] bg-[#E5E5E5]" variant="secondary">
+          Filter
+        </Button>
       </div>
       <DrawerContent>
         <UsersCreateForm
