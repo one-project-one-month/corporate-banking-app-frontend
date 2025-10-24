@@ -18,31 +18,41 @@ function UsersTable({ handleEdit }: UsersTableProps) {
   const columns = useMemo<Column<BaseUser>[]>(
     () => [
       {
-        key: "id",
-        label: "ID",
+        key: "userId",
+        label: "User ID",
       },
       {
         key: "fullName",
         label: "Full Name",
       },
       {
-        key: "dateOfBirth",
-        label: "DOB",
+        key: "emailAddress",
+        label: "Email Address",
         className: "text-center",
       },
+      // {
+      //   key: "genderId",
+      //   label: "Gender",
+      //   className: "text-center",
+      //   cell: (value) => {
+      //     return (
+      //       <span>{value == 1 ? "Male" : value == 2 ? "Female" : "Other"}</span>
+      //     );
+      //   },
+      // },
+
       {
-        key: "genderId",
-        label: "Gender",
-        className: "text-center",
-        cell: (value) => {
-          return (
-            <span>{value == 1 ? "Male" : value == 2 ? "Female" : "Other"}</span>
-          );
-        },
+        key: "role",
+        label: "Role",
       },
       {
-        key: "email",
-        label: "Email",
+        key: "organizationName",
+        label: "Organization Name",
+      },
+
+      {
+        key: "status",
+        label: "Status",
       },
     ],
     []

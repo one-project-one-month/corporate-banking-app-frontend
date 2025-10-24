@@ -1,5 +1,4 @@
 import FormTextInput from "@/components/common/form-inputs/FormTextInput";
-import FormTextArea from "@/components/common/form-inputs/FormTextArea";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import {
@@ -10,15 +9,19 @@ import type { BaseDepositTransition } from "@/types/DepositTransition";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import z from "zod";
+import FormSelectInput from "@/components/common/form-inputs/FormSelectInput";
 
 //TODO: modify schema,
 
 const DepositTransitionSchema = z.object({
-  accountTypeId: z.number(),
-  accountNumber: z.string(),
-  name: z.string(),
+  transactionId: z.number(),
+  accountId: z.number(),
   amount: z.number().min(0, "Amount must be a positive number"),
-  note: z.string(),
+  transactionType: z.enum([
+    "payroll",
+    "annual salary payment",
+    "merchant payment",
+  ]),
 });
 
 type DepositTransitionValues = z.infer<typeof DepositTransitionSchema>;
@@ -34,12 +37,15 @@ function DepositTransitionCreateForm({
 }: DepositTransitionCreateFormProps) {
   const form = useForm<DepositTransitionValues>({
     resolver: zodResolver(DepositTransitionSchema),
+
     defaultValues: {
-      accountTypeId: editDepositTransition?.accountType.id ?? undefined,
-      accountNumber: editDepositTransition?.accountNumber ?? "",
-      name: editDepositTransition?.name ?? "",
+      transactionId: editDepositTransition?.transactionId,
+      accountId: editDepositTransition?.accountId,
       amount: editDepositTransition?.amount ?? 0,
-      note: editDepositTransition?.note ?? "",
+      transactionType: editDepositTransition?.transactionType as
+        | "payroll"
+        | "annual salary payment"
+        | "merchant payment",
     },
   });
 
@@ -66,26 +72,20 @@ function DepositTransitionCreateForm({
               Create DepositTransition
             </h1>
             <FormTextInput
-              name="accountTypeId"
-              label="Account Type"
-              placeholder="Enter Account Type"
+              name="transactionId"
+              label="Transaction Id"
+              placeholder="Enter Id"
               form={form}
               wrapperClass="mb-4"
             />
             <FormTextInput
-              name="accountNumber"
-              label="Account Number"
+              name="accountId"
+              label="Account Id"
               placeholder="Enter Account Number"
               form={form}
               wrapperClass="mb-4"
             />
-            <FormTextInput
-              name="name"
-              label="Name"
-              placeholder="Enter Name"
-              form={form}
-              wrapperClass="mb-4"
-            />
+
             <FormTextInput
               name="amount"
               label="Amount"
@@ -93,12 +93,20 @@ function DepositTransitionCreateForm({
               form={form}
               wrapperClass="mb-4"
             />
-            <FormTextArea
-              name="note"
-              label="Note"
-              placeholder="Enter Note"
+            <FormSelectInput
+              name="transactionType"
+              label="Transaction Type"
+              placeholder="Select transaction type"
               form={form}
               wrapperClass="mb-4"
+              options={[
+                { label: "Payroll", value: "payroll" },
+                {
+                  label: "Annual Salary Payment",
+                  value: "annual salary payment",
+                },
+                { label: "Merchant Payment", value: "merchant payment" },
+              ]}
             />
           </div>
           <div>

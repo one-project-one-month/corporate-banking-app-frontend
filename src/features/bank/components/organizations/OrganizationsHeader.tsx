@@ -33,12 +33,7 @@ function OrganizationsHeader({
           <CreateButton />
         </DrawerTrigger>
       </div>
-      <div className="flex justify-end gap-6">
-        <SearchInput />
-        <Button className="w-[148px] h-[42px] bg-[#E5E5E5]" variant="secondary">
-          Filter
-        </Button>
-      </div>
+
       <DrawerContent>
         <OrganizationsCreateForm
           editOrganization={selectedOrganization}

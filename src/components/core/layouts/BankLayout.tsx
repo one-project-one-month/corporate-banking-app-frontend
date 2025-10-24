@@ -1,5 +1,12 @@
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { Users2 } from "lucide-react";
+import {
+  Users2,
+  LayoutDashboard,
+  Building2,
+  ClipboardList,
+  User,
+  MessageCircleMore,
+} from "lucide-react";
 import { useMemo } from "react";
 import { Outlet } from "react-router-dom";
 import { AppSidebar } from "../sidebar/AppSidebar";
@@ -12,10 +19,17 @@ function BankLayout() {
         {
           title: "Dashboard",
           url: "/bank",
+          icon: LayoutDashboard,
+        },
+        {
+          title: "Accounts",
+          url: "/bank/accounts",
+          icon: User,
         },
         {
           title: "Organizations",
           url: "/bank/organizations",
+          icon: Building2,
         },
         {
           title: "Users",
@@ -25,10 +39,12 @@ function BankLayout() {
         {
           title: "Deposit Transition",
           url: "/bank/deposit-transition",
+          icon: ClipboardList,
         },
         {
           title: "FAQ",
           url: "/bank/FAQ",
+          icon: MessageCircleMore,
         },
       ],
     }),

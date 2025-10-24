@@ -28,41 +28,30 @@ function OrganizationsTable({ handleEdit }: OrganizationsTableProps) {
         label: "ID",
       },
       {
-        key: "name",
+        key: "organizationId",
+        label: "Organization Id",
+      },
+      {
+        key: "organizationName",
         label: "Organization Name",
       },
-      {
-        key: "selectOrganizationType",
-        label: "Organization Type",
-      },
 
-      { key: "fullName", label: "FullName" },
       {
-        key: "userName",
-        label: "UserName",
-      },
-      {
-        key: "registerEmail",
-        label: "Email",
-      },
-      {
-        key: "phoneNumber",
-        label: "Phone Number",
+        key: "organizationAdmin",
+        label: "Organization Admin",
       },
 
       {
-        key: "selectDtate",
-        label: "Date",
+        key: "adminEmail",
+        label: "Admin Email",
       },
-
       {
-        key: "address",
-        label: "Address",
+        key: "status",
+        label: "Status",
       },
-
       {
         key: "createdBy",
-        label: "Created By",
+        label: "Date Joined",
         className: "text-center",
         headerClassName: "text-center",
       },

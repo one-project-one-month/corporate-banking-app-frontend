@@ -1,16 +1,22 @@
+import { Button } from "@/components/ui/button";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
-import FAQCreateForm from "./FAQCreateForm";
 import { useCallback } from "react";
-import type { BaseFAQ } from "@/types/FAQ";
+import type { BaseAccount } from "@/types/Account";
+import AccountCreateForm from "@/features/bank/components/account/AccountCreateForm";
 import CreateButton from "@/components/common/Button";
 
-type FAQHeaderProps = {
-  selectedFAQ: BaseFAQ | null;
+
+type AccountsHeaderProps = {
+  selectedAccount: BaseAccount | null;
   isFormOpen: boolean;
   onOpenChange: (open: boolean) => void;
 };
 
-function FAQHeader({ selectedFAQ, isFormOpen, onOpenChange }: FAQHeaderProps) {
+function AccountsHeader({
+  selectedAccount,
+  isFormOpen,
+  onOpenChange,
+}: AccountsHeaderProps) {
   const handleCloseDrawer = useCallback(() => {
     onOpenChange(false);
   }, []);
@@ -19,19 +25,23 @@ function FAQHeader({ selectedFAQ, isFormOpen, onOpenChange }: FAQHeaderProps) {
     <Drawer direction="right" open={isFormOpen} onOpenChange={onOpenChange}>
       <div className="flex justify-between items-center mb-4">
         <div>
-          <h1 className="text-xl font-bold">FAQ</h1>
+          <h1 className="text-xl font-bold">Organizations</h1>
           <p className="text-sm text-gray-500">Total: 60</p>
         </div>
+
         <DrawerTrigger asChild>
           <CreateButton />
         </DrawerTrigger>
       </div>
-
+     
       <DrawerContent>
-        <FAQCreateForm editFAQ={selectedFAQ} handleClose={handleCloseDrawer} />
+        <AccountCreateForm
+          editAccount={selectedAccount}
+          handleClose={handleCloseDrawer}
+        />
       </DrawerContent>
     </Drawer>
   );
 }
 
-export default FAQHeader;
+export default AccountsHeader;

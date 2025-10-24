@@ -1,8 +1,6 @@
 import FormTextInput from "@/components/common/form-inputs/FormTextInput";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import FormTextArea from "@/components/common/form-inputs/FormTextArea";
-import FormDateInput from "@/components/common/form-inputs/FormDateInput";
 import {
   useCreateOrganization,
   useUpdateExistingOrganization,
@@ -15,14 +13,11 @@ import z from "zod";
 //TODO: modify schema,
 
 const OrganizationsSchema = z.object({
-  name: z.string().nonempty(),
-  selectOrganizationType: z.string().nonempty(),
-  selectDate: z.string().nonempty(),
-  address: z.string().nonempty(),
-  fullName: z.string().nonempty(),
-  registerEmail: z.string().nonempty(),
-  phoneNumber: z.string().nonempty(),
-  userName: z.string().nonempty(),
+  organizationId: z.number(),
+  organizationName: z.string(),
+  organizationAdmin: z.string(),
+  adminEmail: z.string(),
+  status: z.boolean(),
 });
 
 type OrganizationsValues = z.infer<typeof OrganizationsSchema>;
@@ -39,16 +34,14 @@ function OrganizationsCreateForm({
   const form = useForm<OrganizationsValues>({
     resolver: zodResolver(OrganizationsSchema),
     defaultValues: {
-      name: editOrganization ? editOrganization.name : "",
-      selectOrganizationType: editOrganization
-        ? editOrganization.selectOrganizationType
+      organizationId: editOrganization ? editOrganization.organizationId : 0,
+      organizationName: editOrganization
+        ? editOrganization.organizationName
         : "",
-      selectDate: editOrganization ? editOrganization.selectDtate : "",
-      address: editOrganization ? editOrganization.address : "",
-      fullName: editOrganization ? editOrganization.fullName : "",
-      registerEmail: editOrganization ? editOrganization.registerEmail : "",
-      phoneNumber: editOrganization ? editOrganization.phoneNumber : "",
-      userName: editOrganization ? editOrganization.userName : "",
+      organizationAdmin: editOrganization
+        ? editOrganization.organizationAdmin
+        : "",
+      adminEmail: editOrganization ? editOrganization.adminEmail : "",
     },
   });
 
@@ -75,62 +68,38 @@ function OrganizationsCreateForm({
           <div>
             <h1 className="text-2xl font-bold mb-6">Create Organization</h1>
             <FormTextInput
-              name="name"
+              name="organizationId"
+              label="Organization Id"
+              placeholder="Enter organization name"
+              form={form}
+              wrapperClass="mb-4"
+            />
+            <FormTextInput
+              name="organizationName"
               label="Organization Name"
               placeholder="Enter organization name"
               form={form}
               wrapperClass="mb-4"
             />
             <FormTextInput
-              name="selectOrganizationType"
-              label="Organization Type"
+              name="organizationAdmin"
+              label="Organization Admin"
               placeholder="select"
               form={form}
               wrapperClass="mb-4"
             />
-            <FormDateInput
-              name="selectDate"
-              label="Organization Registered Date"
+            <FormTextInput
+              name="adminEmail"
+              label="Admin Email"
               placeholder="select"
               form={form}
               wrapperClass="mb-4"
             />
 
-            <FormTextArea
-              name="address"
-              label="Address"
-              placeholder="Enter address"
-              form={form}
-              wrapperClass="mb-4"
-            />
-
             <FormTextInput
-              name="fullName"
-              label="Org Admin's Full Name"
-              placeholder="Enter full name"
-              form={form}
-              wrapperClass="mb-4"
-            />
-
-            <FormTextInput
-              name="registerEmail"
-              label="Org Admin's Registered Email"
-              placeholder="Enter email"
-              form={form}
-              wrapperClass="mb-4"
-            />
-            <FormTextInput
-              name="phoneNumber"
-              label="Org Admin's Registered Phone Number"
-              placeholder="Enter phone number"
-              form={form}
-              wrapperClass="mb-4"
-            />
-
-            <FormTextInput
-              name="userName"
-              label="UserName"
-              placeholder="Enter user name"
+              name="status"
+              label="Status"
+              placeholder="Enter Status"
               form={form}
               wrapperClass="mb-4"
             />

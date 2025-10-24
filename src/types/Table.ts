@@ -10,5 +10,7 @@ export type Column<T> = {
 
 export type Action<T> = {
   name: string;
+  icons?: ReactNode;
   onClick: (row: T) => void;
+  // render?: (row: T) => React.ReactNode;
 };

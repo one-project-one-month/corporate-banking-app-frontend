@@ -34,12 +34,20 @@ function FAQTable({ handleEditFAQ }: FAQTableProps) {
         },
       },
       {
-        key: "category" as any,
-        label: "Category",
-        cell: (value) => {
-          return <span>{value?.name}</span>;
-        },
+        key: "status",
+        label: "Status",
       },
+      {
+        key: "updatedAt",
+        label: "Last Edit",
+      },
+      // {
+      //   key: "category" as any,
+      //   label: "Category",
+      //   cell: (value) => {
+      //     return <span>{value?.name}</span>;
+      //   },
+      // },
     ],
     [handleEditFAQ]
   );

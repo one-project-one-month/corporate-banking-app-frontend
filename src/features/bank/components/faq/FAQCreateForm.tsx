@@ -1,4 +1,3 @@
-import FormTextInput from "@/components/common/form-inputs/FormTextInput";
 import FormTextArea from "@/components/common/form-inputs/FormTextArea";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
@@ -7,13 +6,15 @@ import type { BaseFAQ } from "@/types/FAQ";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import z from "zod";
+import FormSelectInput from "@/components/common/form-inputs/FormSelectInput";
 
 //TODO: modify schema,
 
 const FAQSchema = z.object({
   question: z.string(),
   answer: z.string(),
-  categoryId: z.number(),
+  // categoryId: z.number(),
+  status: z.enum(["published", "draft"]),
 });
 
 type FAQValues = z.infer<typeof FAQSchema>;
@@ -29,7 +30,8 @@ function FAQCreateForm({ handleClose, editFAQ }: FAQCreateFormProps) {
     defaultValues: {
       question: editFAQ?.question ?? "",
       answer: editFAQ?.answer ?? "",
-      categoryId: editFAQ?.category.id ?? undefined,
+      // categoryId: editFAQ?.category.id ?? undefined,
+      status: editFAQ?.status as "published" | "draft",
     },
   });
 
@@ -67,12 +69,17 @@ function FAQCreateForm({ handleClose, editFAQ }: FAQCreateFormProps) {
               form={form}
               wrapperClass="mb-4"
             />
-            <FormTextInput
-              name="categoryId"
-              label="Category"
-              placeholder="Select Category"
+            <FormSelectInput
+              name="status"
+              label="Status"
+              placeholder="Select Status"
               form={form}
               wrapperClass="mb-4"
+              options={[
+                { label: "published", value: "published" },
+
+                { label: "draft", value: "draft" },
+              ]}
             />
           </div>
           <div>

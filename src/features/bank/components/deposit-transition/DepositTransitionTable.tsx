@@ -1,7 +1,6 @@
 import { useMemo } from "react";
 import CustomTable from "@/components/common/table/CustomTable";
 import type { Action, Column } from "@/types/Table";
-import { ExpandableTextCell } from "@/components/common/table/CustomCells";
 import usePagination from "@/hooks/usePagination";
 import CustomPagination from "@/components/common/CustomPagination";
 import {
@@ -21,27 +20,31 @@ function DepositTransitionTable({ handleEdit }: DepositTransitionTableProps) {
 
   const columns = useMemo<Column<BaseDepositTransition>[]>(
     () => [
-      { key: "id", label: "ID" },
-      { key: "name", label: "Customer Name" },
+      { key: "transactionId", label: "Transaction ID" },
+
       {
-        key: "accountType" as any,
-        label: "Account Type",
-        cell: (value) => <span>{value?.name}</span>,
+        key: "accountId" as any,
+        label: "Account Id",
       },
-      { key: "accountNumber", label: "Account Number" },
+
       {
         key: "amount",
         label: "Amount",
         cell: (value) => <span>${value.toFixed(2)}</span>,
       },
       {
-        key: "note",
-        label: "Note",
-        cell: (value) => <ExpandableTextCell value={value} />,
+        key: "transactionType",
+        label: "Transaction Type",
       },
+
+      {
+        key: "status",
+        label: "Status",
+      },
+
       {
         key: "createdAt",
-        label: "Created At",
+        label: "Date",
         cell: (value) => <span>{new Date(value).toLocaleString()}</span>,
       },
     ],

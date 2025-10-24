@@ -1,10 +1,8 @@
-import { Button } from "@/components/ui/button";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import UsersCreateForm from "./UsersCreateForm";
 import { useCallback } from "react";
 import type { BaseUser } from "@/types/User";
 import CreateButton from "@/components/common/Button";
-import SearchInput from "@/components/common/Search";
 
 type UsersHeaderProps = {
   selectedUser?: BaseUser | null;
@@ -33,12 +31,6 @@ function UsersHeader({
         </DrawerTrigger>
       </div>
 
-      <div className="flex justify-end gap-6">
-        <SearchInput />
-        <Button className="w-[148px] h-[42px] bg-[#E5E5E5]" variant="secondary">
-          Filter
-        </Button>
-      </div>
       <DrawerContent>
         <UsersCreateForm
           editUser={selectedUser}

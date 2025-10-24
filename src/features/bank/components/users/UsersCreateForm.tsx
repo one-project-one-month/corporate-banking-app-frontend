@@ -4,19 +4,19 @@ import z from "zod";
 import { Form } from "@/components/ui/form";
 import FormTextInput from "@/components/common/form-inputs/FormTextInput";
 import { Button } from "@/components/ui/button";
-import FormSelectInput from "@/components/common/form-inputs/FormSelectInput";
-import FormDateInput from "@/components/common/form-inputs/FormDateInput";
-import { formatDateToYYYYMMDD } from "@/lib/helpers/dateFormat";
+
 import type { BaseUser } from "@/types/User";
 import { useCreateUser, useUpdateExistingUser } from "@/queries/user.query";
 
 //TODO: modify schema, need to add more form input variant (//dropdown select input type)
 
 const UserSchema = z.object({
+  userId: z.number(),
   fullName: z.string().nonempty(),
-  dateOfBirth: z.date(),
-  genderId: z.string().nonempty(),
-  email: z.email().nonempty(),
+  emailAddress: z.string().nonempty(),
+  role: z.string().nonempty(),
+  organizationName: z.string().nonempty(),
+  status: z.boolean(),
 });
 
 type UsersCreateFormProps = {
@@ -30,12 +30,17 @@ function UsersCreateForm({ handleClose, editUser }: UsersCreateFormProps) {
   const form = useForm<UserFormValues>({
     resolver: zodResolver(UserSchema),
     defaultValues: {
+      userId: editUser?.userId,
       fullName: editUser?.fullName || "",
-      dateOfBirth: editUser?.dateOfBirth
-        ? new Date(editUser.dateOfBirth)
-        : new Date(),
-      genderId: editUser?.genderId ? String(editUser.genderId) : "",
-      email: editUser?.email || "",
+
+      // dateOfBirth: editUser?.dateOfBirth
+      //   ? new Date(editUser.dateOfBirth)
+      //   : new Date(),
+      // genderId: editUser?.genderId ? String(editUser.genderId) : "",
+      emailAddress: editUser?.emailAddress || "",
+      role: editUser?.role || "",
+      organizationName: editUser?.organizationName || "",
+      status: editUser?.status,
     },
   });
 
@@ -44,10 +49,14 @@ function UsersCreateForm({ handleClose, editUser }: UsersCreateFormProps) {
 
   const handleSubmint = (data: UserFormValues) => {
     const payload = {
+      userId: data.userId,
       fullName: data.fullName,
-      dateOfBirth: formatDateToYYYYMMDD(data.dateOfBirth),
-      genderId: Number(data.genderId),
-      email: data.email,
+      // dateOfBirth: formatDateToYYYYMMDD(data.dateOfBirth),
+      // genderId: Number(data.genderId),
+      emailAddress: data.emailAddress,
+      role: data.role,
+      organizationName: data.organizationName,
+      status: data.status,
     };
 
     if (editUser) {
@@ -68,43 +77,40 @@ function UsersCreateForm({ handleClose, editUser }: UsersCreateFormProps) {
           <div>
             <h1 className="text-2xl font-bold mb-6">Create User</h1>
             <FormTextInput
+              name="userId"
+              label="User Id"
+              placeholder="User Id"
+              form={form}
+              wrapperClass="mb-4"
+            />
+            <FormTextInput
               name="fullName"
               label="Full Name"
               placeholder="Enter your fullname"
               form={form}
               wrapperClass="mb-4"
             />
-            <FormDateInput
-              name="dateOfBirth"
-              label="DOB"
-              type="date"
-              placeholder="Enter your date of birth"
-              form={form}
-              wrapperClass="mb-4"
-              minDate={new Date("1950-01-01")}
-              maxDate={new Date()}
-            />
-            <FormSelectInput
-              name="genderId"
-              label="Gender"
-              placeholder="Choose your gender"
-              form={form}
-              options={[
-                {
-                  label: "Male",
-                  value: "1",
-                },
-                {
-                  label: "Female",
-                  value: "2",
-                },
-              ]}
-              wrapperClass="mb-4"
-            />
+
             <FormTextInput
-              name="email"
-              label="Email"
+              name="emailAddress"
+              label="Email Address"
               placeholder="Enter your Email"
+              form={form}
+              wrapperClass="mb-4"
+            />
+
+            <FormTextInput
+              name="role"
+              label="Role"
+              placeholder="Enter your role"
+              form={form}
+              wrapperClass="mb-4"
+            />
+
+            <FormTextInput
+              name="organizationName"
+              label="Organization Name"
+              placeholder="Enter your organization"
               form={form}
               wrapperClass="mb-4"
             />
