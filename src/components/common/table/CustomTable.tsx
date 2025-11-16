@@ -5,18 +5,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import type { Action, Column } from "@/types/Table";
+import type { Action, Column, Status } from "@/types/Table";
 import CustomTableRow from "./CustomTableRow";
 import { cn } from "@/lib/utils";
 import TableSkeleton from "./TableSkeleton";
 import SearchInput from "@/components/common/Search";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -27,6 +21,9 @@ import { Button } from "@/components/ui/button";
 import { Eye } from "lucide-react";
 import { useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
+import MultipleType from "@/components/common/MultipleType";
+import { useLocation } from "react-router-dom";
+import StatusType from "@/components/common/Status";
 
 type CustomTableProps<T extends Record<string, unknown>> = {
   columns: Column<T>[];
@@ -34,6 +31,7 @@ type CustomTableProps<T extends Record<string, unknown>> = {
   actions?: Action<T>[];
   isLoading?: boolean;
   isEditColunm?: boolean;
+  status: Status<T>[];
 };
 
 //** this is designed to use as a dynamic table component, this might lead to messy logic in future but for light weight usage this is fine to use for now
@@ -51,11 +49,27 @@ function CustomTable<T extends Record<string, unknown>>({
   );
 
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
-  const [selectedStatus, setSelectedStatus] = useState<string | null>(null);
+  const [selectedData, setSelectedData] = useState<string | null>(null);
+  const [selectedStatus, setSelectedStatus] = useState<boolean | null>(null);
 
-  const filteredBody = selectedStatus
-    ? body?.filter((row) => row.status === selectedStatus)
-    : body;
+  const location = useLocation();
+  const pathname = location.pathname;
+  const currentPage = pathname.split("/").pop();
+  // const filteredBody = selectedData
+  //   ? body?.filter((row) => row.status === selectedData)
+  //   : body;
+
+  // const filterStatus = selectedStatus
+  //   ? body?.filter((row) => row.status === selectedStatus)
+  //   : body;
+
+  const filteredBody = body
+    ?.filter((row) =>
+      selectedStatus !== null ? row.status === selectedStatus : true
+    )
+    ?.filter((row) =>
+      selectedData ? String(row.someField).includes(selectedData) : true
+    );
 
   const allSelected = !!body?.length && selectedRows.length === body.length;
 
@@ -83,27 +97,13 @@ function CustomTable<T extends Record<string, unknown>>({
           <div className="flex justify-between gap-3">
             <SearchInput />
             <div>
-              <Select onValueChange={(value) => setSelectedStatus(value)}>
-                <SelectTrigger className="w-[102px] !h-[42px] border-[#99A1AF]">
-                  <SelectValue placeholder="Status" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="active">Active</SelectItem>
-                  <SelectItem value="suspended">Suspended</SelectItem>
-                  <SelectItem value="inActive">InActive</SelectItem>
-                </SelectContent>
-              </Select>
+              <StatusType
+                currentPage={currentPage}
+                onChange={setSelectedStatus}
+              />
             </div>
             <div>
-              <Select>
-                <SelectTrigger className="w-[151px] !h-[42px]">
-                  <SelectValue placeholder="Account Type" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="light">Individual</SelectItem>
-                  <SelectItem value="dark">Organizational</SelectItem>
-                </SelectContent>
-              </Select>
+              <MultipleType currentPage={currentPage} />
             </div>
           </div>
         </div>
@@ -140,7 +140,7 @@ function CustomTable<T extends Record<string, unknown>>({
       <Table className="max-w-full mt-8 border">
         <TableHeader>
           <TableRow className="[&>th]:border-r">
-            <TableHead className="text-center">
+            <TableHead className="items-center">
               <Checkbox
                 checked={allSelected}
                 onCheckedChange={(check) => toggleSelectAll(check === true)}
@@ -158,7 +158,12 @@ function CustomTable<T extends Record<string, unknown>>({
                 </TableHead>
               );
             })}
-            {actions.length > 0 && <TableHead></TableHead>}
+
+            {actions.length > 0 && (
+              <TableHead className="text-center items-center font-medium text-base text-[#99A1AF]">
+                Actions
+              </TableHead>
+            )}
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -175,6 +180,7 @@ function CustomTable<T extends Record<string, unknown>>({
               </TableHead>
             </TableRow>
           ) : (
+            // filterStatus &&
             filteredBody?.map((row, i) => {
               if (!visibleCol.includes(i)) return;
 

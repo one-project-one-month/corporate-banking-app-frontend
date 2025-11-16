@@ -14,9 +14,9 @@ const bankRouter = [
   {
     path: "/bank",
     element: (
-      // <ProtectedRoute>
-      <BankLayout />
-      // </ProtectedRoute>
+      <ProtectedRoute>
+        <BankLayout />
+      </ProtectedRoute>
     ),
     children: [
       {

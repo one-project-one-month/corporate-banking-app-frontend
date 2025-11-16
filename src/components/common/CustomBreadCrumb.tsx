@@ -32,7 +32,7 @@ function CustomBreadCrumb({
           </Fragment>
         ))}
         <BreadcrumbItem>
-          <BreadcrumbPage className="text-primary font-semibold">
+          <BreadcrumbPage className="text-[20px] font-medium text-[#072B46]">
             {currentPageTitle}
           </BreadcrumbPage>
         </BreadcrumbItem>

@@ -54,15 +54,22 @@ export const useUpdateExistingOrganization = () => {
 
 export const useGetOrganizations = (params: PaginationParam) => {
   return useQuery<GetAllBaseOrganization & WithPagination>({
-    queryKey: ["users", params.page, params.pageSize],
+    queryKey: ["organizations", params.page, params.pageSize],
     queryFn: () => getOrganization(params),
     select: (data) => {
-      const totalPages = Math.ceil(
-        data?.pagination.total / (params?.pageSize ?? 5)
-      );
+      console.log(data);
+      // const totalPages = Math.ceil(
+      //   data?.pagination.total / (params?.pageSize ?? 5)
+      // );
+
+      const totalCount = data?.data?.organizations?.length ?? 0;
+
+      console.log("totalcount", totalCount);
+      const totalPages = Math.ceil(totalCount / (params.pageSize ?? 5));
       return {
         ...data,
         totalPages,
+        totalCount,
         hasNextPage: (params?.page ?? 1) < totalPages,
         hasPreviousPage: (params?.page ?? 1) > 1,
       };
@@ -73,7 +80,7 @@ export const useGetOrganizations = (params: PaginationParam) => {
 export const useDeleteOrganization = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (id: number) => deleteOrganization(id),
+    mutationFn: (organizationId: number) => deleteOrganization(organizationId),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["organizations"],

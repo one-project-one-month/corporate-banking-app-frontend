@@ -18,7 +18,7 @@ export const createAccount = async (payload: CreateAccountPayload) => {
 
 export const getAccount = async (params: PaginationParam) => {
   try {
-    const res = await API.get("/account", { params });
+    const res = await API.get("/bank-admin/accounts", { params });
     return res.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {

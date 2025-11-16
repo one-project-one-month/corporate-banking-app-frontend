@@ -2,6 +2,13 @@ import FormTextInput from "@/components/common/form-inputs/FormTextInput";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   useCreateOrganization,
   useUpdateExistingOrganization,
 } from "@/queries/organization.query";
@@ -14,9 +21,9 @@ import z from "zod";
 
 const OrganizationsSchema = z.object({
   organizationId: z.number(),
-  organizationName: z.string(),
+  organizationName: z.string().min(1, "Organization name is required"),
   organizationAdmin: z.string(),
-  adminEmail: z.string(),
+  adminEmail: z.string().email("Invalid email"),
   status: z.boolean(),
 });
 
@@ -96,13 +103,15 @@ function OrganizationsCreateForm({
               wrapperClass="mb-4"
             />
 
-            <FormTextInput
-              name="status"
-              label="Status"
-              placeholder="Enter Status"
-              form={form}
-              wrapperClass="mb-4"
-            />
+            <Select onValueChange={(val) => form.setValue("status", val)}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="true">Active</SelectItem>
+                <SelectItem value="false">InActive</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
           <div>
             <Button

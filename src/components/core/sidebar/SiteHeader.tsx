@@ -2,10 +2,13 @@ import CustomBreadCrumb from "@/components/common/CustomBreadCrumb";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { useLocation } from "react-router-dom";
-import { User } from "lucide-react";
+import type { RootState } from "@/app/store/store";
+import { useSelector } from "react-redux";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 function SiteHeader() {
   const currentPathName = useLocation().pathname;
+  const userName = useSelector((state: RootState) => state.auth.username);
 
   const segments = currentPathName.split("/").filter(Boolean);
   const displaySegments = segments[0] === "bank" ? segments.slice(1) : segments;
@@ -32,11 +35,14 @@ function SiteHeader() {
           />
         </div>
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 border-2 rounded-full flex justify-center items-center">
-            <User size={16} />
-          </div>
+          <Avatar className="h-7 w-7 rounded-lg grayscale">
+            <AvatarImage src={"https://github.com/shadcn.png"} alt="@avatar" />
+            <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+          </Avatar>
 
-          <p className="text-sm font-bold">Jon Doe</p>
+          <p className="text-sm text-[#364153] font-medium capitalize">
+            {userName}
+          </p>
         </div>
       </div>
     </header>

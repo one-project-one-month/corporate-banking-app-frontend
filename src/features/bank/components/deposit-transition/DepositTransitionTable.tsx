@@ -20,31 +20,46 @@ function DepositTransitionTable({ handleEdit }: DepositTransitionTableProps) {
 
   const columns = useMemo<Column<BaseDepositTransition>[]>(
     () => [
-      { key: "transactionId", label: "Transaction ID" },
+      {
+        key: "transactionId",
+        label: "Transaction ID",
+        headerClassName: "font-medium text-base text-[#99A1AF] text-center",
+        className: " text-sm text-[#1E2939] text-center",
+      },
 
       {
         key: "accountId" as any,
         label: "Account Id",
+        headerClassName: "font-medium text-base text-[#99A1AF]",
+        className: " text-sm text-[#1E2939]",
       },
 
       {
         key: "amount",
         label: "Amount",
+        headerClassName: "font-medium text-base text-[#99A1AF]",
+        className: " text-sm text-[#1E2939]",
         cell: (value) => <span>${value.toFixed(2)}</span>,
       },
       {
         key: "transactionType",
         label: "Transaction Type",
+        headerClassName: "font-medium text-base text-[#99A1AF]",
+        className: " text-sm text-[#1E2939]",
       },
 
       {
         key: "status",
         label: "Status",
+        headerClassName: "font-medium text-base text-[#99A1AF] text-center",
+        className: " text-sm text-[#1E2939]",
       },
 
       {
         key: "createdAt",
         label: "Date",
+        headerClassName: "font-medium text-base text-[#99A1AF]",
+        className: " text-sm text-[#1E2939]",
         cell: (value) => <span>{new Date(value).toLocaleString()}</span>,
       },
     ],
