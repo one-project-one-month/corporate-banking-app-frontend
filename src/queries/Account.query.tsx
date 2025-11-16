@@ -47,9 +47,12 @@ export const useGetAccount = (params: PaginationParam) => {
     queryKey: ["users", params.page, params.pageSize],
     queryFn: () => getAccount(params),
     select: (data) => {
-      const totalPages = Math.ceil(
-        data?.pagination.total / (params?.pageSize ?? 5)
-      );
+      // const totalPages = Math.ceil(
+      //   data?.pagination.total / (params?.pageSize ?? 5)
+      // );
+
+      const totalCount = data?.data?.accounts?.lenght ?? 0;
+      const totalPages = Math.ceil(totalCount / (params.pageSize ?? 5));
       return {
         ...data,
         totalPages,

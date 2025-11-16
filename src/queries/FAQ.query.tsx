@@ -27,7 +27,7 @@ export const useCreateFaq = () => {
 export const useDeleteFaq = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (id: number) => deleteFaq(id),
+    mutationFn: (faqId: number) => deleteFaq(faqId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["faqs"], exact: false });
     },
@@ -42,8 +42,8 @@ export const useUpdateExistingFaq = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, data }: { id: number; data: FAQCreatePayload }) =>
-      updateExistingFaq(id, data),
+    mutationFn: ({ faqId, data }: { faqId: number; data: FAQCreatePayload }) =>
+      updateExistingFaq(faqId, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["faqs"], exact: false });
     },
@@ -59,12 +59,16 @@ export const useGetFaq = (params: PaginationParam) => {
     queryKey: ["faqs", params.page, params.pageSize],
     queryFn: () => getFaq(params),
     select: (data) => {
-      const totalPages = Math.ceil(
-        data?.pagination.total / (params?.pageSize ?? 5)
-      );
+      // const totalPages = Math.ceil(
+      //   data?.pagination.total / (params?.pageSize ?? 5)
+      // );
+
+      const totalCount = data?.data?.faqs?.length ?? 0;
+      const totalPages = Math.ceil(totalCount / (params.pageSize ?? 5));
       return {
         ...data,
         totalPages,
+        totalCount,
         hasNextPage: (params?.page ?? 1) < totalPages,
         hasPreviousPage: (params?.page ?? 1) > 1,
       };

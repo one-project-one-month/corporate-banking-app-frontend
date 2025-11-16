@@ -1,7 +1,9 @@
-export type BaseResponse<T> = {
+export type BaseResponse<T, K extends string = string> = {
   code: number;
   message: string;
-  data: T[];
+  data: {
+    [key in K]: T[];
+  };
 };
 
 export type BaseResponseWithPagination<T> = BaseResponse<T> & {

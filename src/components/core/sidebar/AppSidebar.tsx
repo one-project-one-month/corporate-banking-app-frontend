@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/sidebar";
 import { NavMain } from "./NavMain";
 import { NavUser } from "./NavUser";
-
+import Icon from "../../../assets/icons/icon.svg";
 type NavMainItem = {
   title: string;
   url: string;
@@ -41,15 +41,13 @@ export function AppSidebar({ sidebarData, ...props }: AppSidebarProps) {
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
               <div className="w-[224px] h-[64px] p-6 ">
-                <p className="text-5xl font-medium ml-2 text-[#0A3D62] font-serif">
-                  flypay
-                </p>
+                <img src={Icon} alt="" />
               </div>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-      <div className="my-2" />
+      {/* <div className="my-2" /> */}
       <SidebarContent>
         <NavMain items={sidebarData.navMain} />
       </SidebarContent>

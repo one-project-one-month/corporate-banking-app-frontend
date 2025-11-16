@@ -26,7 +26,7 @@ function AccountsHeader({
   return (
     <div className="flex justify-between items-center mb-4">
       <div>
-        <h1 className="text-xl font-bold">Organizations</h1>
+        <h1 className="text-lg text-[#072B46] font-medium">Accounts</h1>
         <p className="text-sm text-gray-500">Total: 60</p>
       </div>
       <div className="flex gap-3">

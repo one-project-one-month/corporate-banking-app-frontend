@@ -27,7 +27,7 @@ function CustomTableRow<T extends Record<string, unknown>>({
 }: CustomTableRowProps<T>) {
   return (
     <TableRow className="*:border-r last:border-r-0 odd:bg-muted/50">
-      <TableCell className="text-center">
+      <TableCell className="items-center">
         <Checkbox
           checked={isSelected}
           onCheckedChange={(checked) => onSelect?.(checked as boolean)}
@@ -38,9 +38,7 @@ function CustomTableRow<T extends Record<string, unknown>>({
           key={col.key.toString()}
           className={cn("py-5 max-w-[200px] whitespace-normal", col.className)}
         >
-          {col.cell
-            ? col.cell(row[col.key], row)
-            : JSON.stringify(row[col.key])}
+          {col.cell ? col.cell(row[col.key], row) : String(row[col.key])}
         </TableCell>
       ))}
 

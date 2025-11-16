@@ -36,7 +36,7 @@ function AccountCreateForm({
     defaultValues: {
       accountNumber: editAccount ? editAccount.accountNumber : 0,
       accountHolder: editAccount ? editAccount.accountHolder : "",
-      accountType: editAccount ? editAccount.accountType : "",
+      accountType: editAccount?.accountType?.name ?? "",
       status: editAccount ? editAccount.status : false,
       createBy: editAccount ? String(editAccount.createdBy) : "",
     },

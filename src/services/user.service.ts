@@ -18,7 +18,7 @@ export const createUser = async (data: CreateUserPayload) => {
 
 export const getUsers = async (params: PaginationParam) => {
   try {
-    const res = await API.get("/users", { params });
+    const res = await API.get("bank-admin/users", { params });
     return res.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -42,6 +42,22 @@ export const updateExistingUser = async (
     }
 
     throw new Error(String(error));
+  }
+};
+
+export const statusConfirmUser = async (
+  userId: number,
+  action: "APPROVE" | "REJECT"
+) => {
+  try {
+    const res = await API.post(`/bank-admin/users/${userId}/status`, {
+      action,
+    });
+    return res.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(error.response?.data?.message || error.message);
+    }
   }
 };
 

@@ -55,7 +55,11 @@ function CustomPagination({
           <SelectContent className="max-h-44 rounded-none">
             {Array.from({ length: totalPages }).map((_, i) => {
               return (
-                <SelectItem className="rounded-none" value={(i + 1).toString()}>
+                <SelectItem
+                  className="rounded-none"
+                  value={(i + 1).toString()}
+                  key={i}
+                >
                   {i + 1}
                 </SelectItem>
               );

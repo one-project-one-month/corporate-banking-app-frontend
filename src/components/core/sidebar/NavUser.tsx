@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import type { RootState } from "@/app/store/store";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,10 +24,22 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 export function NavUser() {
   const { isMobile } = useSidebar();
+  const userName = useSelector((state: RootState) => state.auth.username);
+  const email = useSelector((state: RootState) => state.auth.email);
+  const { accessToken } = useSelector((state: RootState) => state.auth);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!userName || !accessToken) {
+      navigate("bank/auth/login");
+    }
+  }, [userName, accessToken]);
 
   return (
     <SidebarMenu>
@@ -45,9 +58,11 @@ export function NavUser() {
                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">Mg Mg</span>
+                <span className="truncate font-medium capitalize">
+                  {userName}
+                </span>
                 <span className="text-muted-foreground truncate text-xs">
-                  mgmg@gmail.com
+                  {email}
                 </span>
               </div>
               <MoreVertical className="ml-auto size-4" />
@@ -69,9 +84,11 @@ export function NavUser() {
                   <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">Mg Mg</span>
+                  <span className="truncate font-medium capitalize">
+                    {userName}
+                  </span>
                   <span className="text-muted-foreground truncate text-xs">
-                    mgmg@gmail.com
+                    {email}
                   </span>
                 </div>
               </div>
