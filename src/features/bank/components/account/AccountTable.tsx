@@ -1,61 +1,51 @@
 import { useMemo, useState } from "react";
 import CustomTable from "@/components/common/table/CustomTable";
 import type { Action, Column } from "@/types/Table";
-import type { BaseOrganization } from "@/types/Organization";
-import {
-  useDeleteOrganization,
-  useGetOrganizations,
-} from "@/queries/organization.query";
+import type { BaseAccount } from "@/types/Account";
+import { useDeleteAccount, useGetAccount } from "@/queries/Account.query";
 import usePagination from "@/hooks/usePagination";
 import CustomPagination from "@/components/common/CustomPagination";
 import { EyeIcon, Pencil, Trash2 } from "lucide-react";
 import { DeleteButton } from "@/components/common/DeleteButton";
 
-type OrganizationsTableProps = {
-  handleEdit: (organization: BaseOrganization) => void;
+type AccountTableProps = {
+  handleEdit: (account: BaseAccount) => void;
 };
 
-function OrganizationsTable({ handleEdit }: OrganizationsTableProps) {
+function AccountTable({ handleEdit }: AccountTableProps) {
   const { page, setPage } = usePagination();
-  const { data: organizations, isLoading } = useGetOrganizations({
+  const { data: accounts, isLoading } = useGetAccount({
     page,
     pageSize: 5,
   });
-  const { mutate: deleteOrganization } = useDeleteOrganization();
+  const { mutate: deleteAccount } = useDeleteAccount();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [organizationToDelete, setOrganizationToDelete] =
-    useState<BaseOrganization | null>(null);
+  const [accountToDelete, setAccountToDelete] = useState<BaseAccount | null>(
+    null
+  );
 
-  const tableBodyData = organizations?.data?.organizations ?? [];
-
-  const columns = useMemo<Column<BaseOrganization>[]>(
+  const columns = useMemo<Column<BaseAccount>[]>(
     () => [
       {
-        key: "organizationId",
-        label: "Organization Id",
+        key: "accountNumber",
+        label: "Account Number",
         headerClassName: "font-medium text-base text-[#99A1AF] text-center",
         className: " text-sm text-[#1E2939] text-center",
       },
       {
-        key: "organizationName",
-        label: "Organization Name",
-        headerClassName: "font-medium text-base text-[#99A1AF] ",
-        className: " text-sm text-[#1E2939] ",
+        key: "accountHolder",
+        label: "Account Holder",
+        headerClassName: "font-medium text-base text-[#99A1AF]",
+        className: " text-sm text-[#1E2939]",
+      },
+      {
+        key: "accountType",
+        label: "Account Type",
+        cell: (value) => value?.name,
+        headerClassName: "font-medium text-base text-[#99A1AF]",
+        className: " text-sm text-[#1E2939]",
       },
 
-      {
-        key: "organizationAdmin",
-        label: "Organization Admin",
-        headerClassName: "font-medium text-base text-[#99A1AF] ",
-        className: " text-sm text-[#1E2939] ",
-      },
-
-      {
-        key: "adminEmail",
-        label: "Admin Email",
-        headerClassName: "font-medium text-base text-[#99A1AF] ",
-        className: " text-sm text-[#1E2939] ",
-      },
       {
         key: "status",
         label: "Status",
@@ -77,7 +67,7 @@ function OrganizationsTable({ handleEdit }: OrganizationsTableProps) {
       },
       {
         key: "createdAt",
-        label: "Date Joined",
+        label: "Date Opened",
         headerClassName: "font-medium text-base text-[#99A1AF]",
         className: " text-sm ",
         cell: (value) => {
@@ -89,31 +79,33 @@ function OrganizationsTable({ handleEdit }: OrganizationsTableProps) {
     []
   );
 
-  const actions = useMemo<Action<BaseOrganization>[]>(
+  const actions = useMemo<Action<BaseAccount>[]>(
     () => [
       {
         name: "View Detail",
         icons: <EyeIcon />,
-        onClick: function (row: BaseOrganization) {},
+        onClick: function (row: BaseAccount) {},
       },
       {
         name: "Edit",
         icons: <Pencil />,
-        onClick: function (row: BaseOrganization) {
+        onClick: function (row: BaseAccount) {
           handleEdit(row);
         },
       },
       {
         name: "Delete",
         icons: <Trash2 color="red" />,
-        onClick: function (row: BaseOrganization) {
-          setOrganizationToDelete(row);
+        onClick: function (row: BaseAccount) {
+          setAccountToDelete(row);
           setDeleteDialogOpen(true);
         },
       },
     ],
-    []
+    [handleEdit]
   );
+
+  const tableBodyData = accounts?.data.accounts ?? [];
 
   const totalCount = 60;
   const limit = 5;
@@ -125,19 +117,19 @@ function OrganizationsTable({ handleEdit }: OrganizationsTableProps) {
 
   return (
     <>
-      <CustomTable<BaseOrganization>
-        isLoading={isLoading}
+      <CustomTable<BaseAccount>
         columns={columns}
-        // body={organizations?.data.organizations ?? null}
+        //body={accounts?.data ?? null}
         body={currentPageData}
         actions={actions}
+        isLoading={isLoading}
       />
       {/* <CustomPagination
-        limit={organizations?.data.pagination.pageSize ?? 5}
-        totalCount={organizations?.totalPages ?? 1}
-        isNext={organizations?.hasNextPage ?? false}
-        isPrevious={organizations?.hasPreviousPage ?? false}
-        page={organizations?.pagination.currentPage ?? 1}
+        limit={accounts?.pagination.pageSize ?? 5}
+        totalCount={accounts?.totalPages ?? 1}
+        isNext={accounts?.hasNextPage ?? false}
+        isPrevious={accounts?.hasPreviousPage ?? false}
+        page={accounts?.pagination.currentPage ?? 1}
         setPage={setPage}
       /> */}
 
@@ -149,22 +141,21 @@ function OrganizationsTable({ handleEdit }: OrganizationsTableProps) {
         page={page}
         setPage={setPage}
       />
-
       <DeleteButton
         open={deleteDialogOpen}
         onOpenChange={setDeleteDialogOpen}
-        itemName={organizationToDelete?.organizationName || ""}
+        itemName={accountToDelete?.accountHolder || ""}
         requireNameConfirmation={true}
         onConfirm={() => {
-          if (organizationToDelete) {
-            deleteOrganization(organizationToDelete.organizationId);
+          if (accountToDelete) {
+            deleteAccount(accountToDelete.id);
           }
           setDeleteDialogOpen(false);
-          setOrganizationToDelete(null);
+          setAccountToDelete(null);
         }}
       />
     </>
   );
 }
 
-export default OrganizationsTable;
+export default AccountTable;

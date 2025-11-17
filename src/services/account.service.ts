@@ -1,11 +1,11 @@
 import API from "@/app/api/axios";
 import type { PaginationParam } from "@/types/Common";
-import type { CreateUserPayload } from "@/types/User";
+import type { CreateAccountPayload } from "@/types/Account";
 import axios from "axios";
 
-export const createUser = async (data: CreateUserPayload) => {
+export const createAccount = async (payload: CreateAccountPayload) => {
   try {
-    const res = await API.post("/users", data);
+    const res = await API.post("/account", payload);
     return res.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -16,9 +16,9 @@ export const createUser = async (data: CreateUserPayload) => {
   }
 };
 
-export const getUsers = async (params: PaginationParam) => {
+export const getAccount = async (params: PaginationParam) => {
   try {
-    const res = await API.get("bank-admin/users", { params });
+    const res = await API.get("/bank-admin/accounts", { params });
     return res.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -29,12 +29,12 @@ export const getUsers = async (params: PaginationParam) => {
   }
 };
 
-export const updateExistingUser = async (
+export const updateExitingAccount = async (
   id: number,
-  data: CreateUserPayload
+  data: CreateAccountPayload
 ) => {
   try {
-    const res = await API.put(`/users/${id}`, data);
+    const res = await API.put(`/account/${id}`, data);
     return res.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -45,31 +45,14 @@ export const updateExistingUser = async (
   }
 };
 
-export const statusConfirmUser = async (
-  userId: number,
-  action: "APPROVE" | "REJECT"
-) => {
+export const deleteAccount = async (id: number) => {
   try {
-    const res = await API.post(`/bank-admin/users/${userId}/status`, {
-      action,
-    });
+    const res = await API.delete(`/account/${id}`);
     return res.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       throw new Error(error.response?.data?.message || error.message);
     }
-  }
-};
-
-export const deleteUser = async (id: number) => {
-  try {
-    const res = await API.delete(`/users/${id}`);
-    return res.data;
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      throw new Error(error.response?.data?.message || error.message);
-    }
-
     throw new Error(String(error));
   }
 };

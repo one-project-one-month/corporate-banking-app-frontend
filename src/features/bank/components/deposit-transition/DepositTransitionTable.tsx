@@ -1,7 +1,6 @@
 import { useMemo } from "react";
 import CustomTable from "@/components/common/table/CustomTable";
 import type { Action, Column } from "@/types/Table";
-import { ExpandableTextCell } from "@/components/common/table/CustomCells";
 import usePagination from "@/hooks/usePagination";
 import CustomPagination from "@/components/common/CustomPagination";
 import {
@@ -21,27 +20,46 @@ function DepositTransitionTable({ handleEdit }: DepositTransitionTableProps) {
 
   const columns = useMemo<Column<BaseDepositTransition>[]>(
     () => [
-      { key: "id", label: "ID" },
-      { key: "name", label: "Customer Name" },
       {
-        key: "accountType" as any,
-        label: "Account Type",
-        cell: (value) => <span>{value?.name}</span>,
+        key: "transactionId",
+        label: "Transaction ID",
+        headerClassName: "font-medium text-base text-[#99A1AF] text-center",
+        className: " text-sm text-[#1E2939] text-center",
       },
-      { key: "accountNumber", label: "Account Number" },
+
+      {
+        key: "accountId" as any,
+        label: "Account Id",
+        headerClassName: "font-medium text-base text-[#99A1AF]",
+        className: " text-sm text-[#1E2939]",
+      },
+
       {
         key: "amount",
         label: "Amount",
+        headerClassName: "font-medium text-base text-[#99A1AF]",
+        className: " text-sm text-[#1E2939]",
         cell: (value) => <span>${value.toFixed(2)}</span>,
       },
       {
-        key: "note",
-        label: "Note",
-        cell: (value) => <ExpandableTextCell value={value} />,
+        key: "transactionType",
+        label: "Transaction Type",
+        headerClassName: "font-medium text-base text-[#99A1AF]",
+        className: " text-sm text-[#1E2939]",
       },
+
+      {
+        key: "status",
+        label: "Status",
+        headerClassName: "font-medium text-base text-[#99A1AF] text-center",
+        className: " text-sm text-[#1E2939]",
+      },
+
       {
         key: "createdAt",
-        label: "Created At",
+        label: "Date",
+        headerClassName: "font-medium text-base text-[#99A1AF]",
+        className: " text-sm text-[#1E2939]",
         cell: (value) => <span>{new Date(value).toLocaleString()}</span>,
       },
     ],

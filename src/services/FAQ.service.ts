@@ -6,7 +6,7 @@ import axios from "axios";
 // Create FAQ
 export const createFaq = async (payload: FAQCreatePayload) => {
   try {
-    const res = await API.post("/faqs", payload);
+    const res = await API.post("bank-admin/faqs", payload);
     return res.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -17,9 +17,9 @@ export const createFaq = async (payload: FAQCreatePayload) => {
   }
 };
 
-export const deleteFaq = async (id: number) => {
+export const deleteFaq = async (faqId: number) => {
   try {
-    const res = await API.delete(`/faqs/${id}`);
+    const res = await API.delete(`bank-admin/faqs/${faqId}`);
   } catch (error) {
     if (axios.isAxiosError(error)) {
       throw new Error(error.response?.data?.message || error.message);
@@ -32,7 +32,7 @@ export const deleteFaq = async (id: number) => {
 // Get FAQs (with pagination)
 export const getFaq = async (params: PaginationParam) => {
   try {
-    const res = await API.get("/faqs", { params });
+    const res = await API.get("/bank-admin/faqs", { params });
     return res.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -44,9 +44,12 @@ export const getFaq = async (params: PaginationParam) => {
 };
 
 // Update FAQ
-export const updateExistingFaq = async (id: number, data: FAQCreatePayload) => {
+export const updateExistingFaq = async (
+  faqId: number,
+  data: FAQCreatePayload
+) => {
   try {
-    const res = await API.put(`/faqs/${id}`, data);
+    const res = await API.put(`bank-admin/faqs/${faqId}`, data);
     return res.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {

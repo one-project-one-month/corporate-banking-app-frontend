@@ -1,24 +1,24 @@
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
-import UsersCreateForm from "./UsersCreateForm";
 import { useCallback } from "react";
-import type { BaseUser } from "@/types/User";
+import type { BaseAccount } from "@/types/Account";
+import AccountCreateForm from "@/features/bank/components/account/AccountCreateForm";
 import CreateButton from "@/components/common/Button";
 import { FileUpload } from "@/components/common/FileUpload";
 import { Button } from "@/components/ui/button";
 import { FileUp } from "lucide-react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
-type UsersHeaderProps = {
-  selectedUser?: BaseUser | null;
+type AccountsHeaderProps = {
+  selectedAccount: BaseAccount | null;
   isFormOpen: boolean;
   onOpenChange: (open: boolean) => void;
 };
 
-function UsersHeader({
+function AccountsHeader({
+  selectedAccount,
   isFormOpen,
   onOpenChange,
-  selectedUser,
-}: UsersHeaderProps) {
+}: AccountsHeaderProps) {
   const handleCloseDrawer = useCallback(() => {
     onOpenChange(false);
   }, []);
@@ -26,7 +26,7 @@ function UsersHeader({
   return (
     <div className="flex justify-between items-center mb-4">
       <div>
-        <h1 className="text-lg text-[#072B46] font-medium">Users</h1>
+        <h1 className="text-lg text-[#072B46] font-medium">Accounts</h1>
         <p className="text-sm text-gray-500">Total: 60</p>
       </div>
       <div className="flex gap-3">
@@ -45,9 +45,10 @@ function UsersHeader({
           <DrawerTrigger asChild>
             <CreateButton />
           </DrawerTrigger>
+
           <DrawerContent>
-            <UsersCreateForm
-              editUser={selectedUser}
+            <AccountCreateForm
+              editAccount={selectedAccount}
               handleClose={handleCloseDrawer}
             />
           </DrawerContent>
@@ -57,4 +58,4 @@ function UsersHeader({
   );
 }
 
-export default UsersHeader;
+export default AccountsHeader;

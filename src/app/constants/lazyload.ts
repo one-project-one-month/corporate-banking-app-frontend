@@ -24,6 +24,10 @@ export const DashboardPage = PageLoader(
   lazy(() => import("@/features/bank/pages/DashboardPage"))
 );
 
+export const AccountPage = PageLoader(
+  lazy(() => import("@/features/bank/pages/AccountPage"))
+);
+
 export const FAQPage = PageLoader(
   lazy(() => import("@/features/bank/pages/FAQPage"))
 );

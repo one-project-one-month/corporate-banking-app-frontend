@@ -6,6 +6,7 @@ import {
   FAQPage,
   OrganizationsPage,
   UsersPage,
+  AccountPage,
 } from "../constants/lazyload";
 import ProtectedRoute from "@/components/common/ProtectedRoute";
 
@@ -13,14 +14,18 @@ const bankRouter = [
   {
     path: "/bank",
     element: (
-      // <ProtectedRoute>
-      <BankLayout />
-      // </ProtectedRoute>
+      <ProtectedRoute>
+        <BankLayout />
+      </ProtectedRoute>
     ),
     children: [
       {
         index: true,
         element: <DashboardPage />,
+      },
+      {
+        path: "accounts",
+        element: <AccountPage />,
       },
       {
         path: "users",
