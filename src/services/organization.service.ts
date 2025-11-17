@@ -7,7 +7,7 @@ export const createOrganization = async (
   payload: CreateOrganizationPayload
 ) => {
   try {
-    const res = await API.post("/organizations", payload);
+    const res = await API.post("/bank-admin/organizations", payload);
     return res.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -20,7 +20,9 @@ export const createOrganization = async (
 
 export const getOrganization = async (params: PaginationParam) => {
   try {
-    const res = await API.get("/organizations", { params });
+    const res = await API.get(`/bank-admin/organizations`, {
+      params,
+    });
     return res.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -47,9 +49,9 @@ export const updateExistingOrganization = async (
   }
 };
 
-export const deleteOrganization = async (id: number) => {
+export const deleteOrganization = async (organizationId: number) => {
   try {
-    const res = await API.delete(`/organizations/${id}`);
+    const res = await API.delete(`bank-admin/organizations/${organizationId}`);
     return res.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {

@@ -1,19 +1,23 @@
 import type { BaseResponseWithPagination } from "./Common";
 
 export type FAQCreatePayload = {
+  id: number;
   question: string;
   answer: string;
-  categoryId: number;
+  // status: "published" | "draft";
+  faqCategoryId: number;
 };
 
 export type BaseFAQ = {
   id: number;
   question: string;
   answer: string;
-  category: {
-    id: number;
-    name: string;
-  };
+  faqCategoryId: number;
+  // category: {
+  //   id: number;
+  //   name: string;
+  // };
+  status: "published" | "draft";
   createdAt: string;
   updatedAt: string;
 };

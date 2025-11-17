@@ -1,4 +1,4 @@
-import { Building, type LucideIcon } from "lucide-react";
+import { type LucideIcon } from "lucide-react";
 import * as React from "react";
 import {
   Sidebar,
@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/sidebar";
 import { NavMain } from "./NavMain";
 import { NavUser } from "./NavUser";
-
+import Icon from "../../../assets/icons/icon.svg";
 type NavMainItem = {
   title: string;
   url: string;
@@ -40,14 +40,14 @@ export function AppSidebar({ sidebarData, ...props }: AppSidebarProps) {
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
-              <div className="text-5xl font-extrabold ml-2">
-                Mg Wai Gyi's Bank <Building />
+              <div className="w-[224px] h-[64px] p-6 ">
+                <img src={Icon} alt="" />
               </div>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-      <div className="my-2" />
+      {/* <div className="my-2" /> */}
       <SidebarContent>
         <NavMain items={sidebarData.navMain} />
       </SidebarContent>

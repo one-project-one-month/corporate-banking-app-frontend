@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,25 +14,34 @@ type CustomTableRowProps<T extends Record<string, unknown>> = {
   columns: Column<T>[];
   row: T;
   actions: Action<T>[];
+  isSelected?: boolean;
+  onSelect?: (checked: boolean) => void;
 };
 
 function CustomTableRow<T extends Record<string, unknown>>({
   columns,
   row,
   actions,
+  isSelected,
+  onSelect,
 }: CustomTableRowProps<T>) {
   return (
     <TableRow className="*:border-r last:border-r-0 odd:bg-muted/50">
+      <TableCell className="items-center">
+        <Checkbox
+          checked={isSelected}
+          onCheckedChange={(checked) => onSelect?.(checked as boolean)}
+        />
+      </TableCell>
       {columns.map((col) => (
         <TableCell
           key={col.key.toString()}
           className={cn("py-5 max-w-[200px] whitespace-normal", col.className)}
         >
-          {col.cell
-            ? col.cell(row[col.key], row)
-            : JSON.stringify(row[col.key])}
+          {col.cell ? col.cell(row[col.key], row) : String(row[col.key])}
         </TableCell>
       ))}
+
       {actions?.length > 0 && (
         <TableCell className="py-3 text-center">
           <DropdownMenu>
@@ -52,6 +62,7 @@ function CustomTableRow<T extends Record<string, unknown>>({
                   key={action.name}
                   onClick={() => action.onClick(row)}
                 >
+                  {action.icons}
                   {action.name}
                 </DropdownMenuItem>
               ))}

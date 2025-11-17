@@ -86,7 +86,7 @@ export function NavMain({ items }: { items: NavItem[] }) {
                       <SidebarMenuItem key={child.title}>
                         <SidebarMenuButton
                           asChild
-                          className="py-2 h-12 px-2 text-sm"
+                          className="py-2 h-12 px-2 text-sm "
                         >
                           <Link to={child.url}>{child.title}</Link>
                         </SidebarMenuButton>
@@ -102,14 +102,27 @@ export function NavMain({ items }: { items: NavItem[] }) {
                 <SidebarMenuButton
                   asChild
                   onClick={() => toggleSection(idx)}
-                  className={`flex items-center gap-4 py-8 px-4 text-base ${
+                  className={`flex items-center gap-4 py-6 px-4 text-base  ${
+                    pathname === item.url ? "bg-[#0A3D62]" : ""
+                  } ${
                     isOpen &&
-                    "bg-dodger-blue-50 dark:bg-neutral-800 text-primary hover:bg-dodget-blue-50 hover:text-primary"
+                    " dark:bg-neutral-800 text-primary hover:bg-dodget-blue-50 hover:text-primary"
                   }`}
                 >
                   <Link to={item.url}>
-                    {item.icon && <item.icon size={16} />}
-                    <span>{item.title}</span>
+                    {item.icon && (
+                      <item.icon
+                        size={16}
+                        className={`${
+                          pathname === item.url ? "text-white" : ""
+                        }`}
+                      />
+                    )}
+                    <span
+                      className={`${pathname === item.url ? "text-white" : ""}`}
+                    >
+                      {item.title}
+                    </span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
