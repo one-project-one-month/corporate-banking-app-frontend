@@ -30,7 +30,7 @@ function OrganizationsHeader({
         <p className="text-sm text-gray-500">Total: 60</p>
       </div>
       <div className="flex gap-3">
-        <Dialog>
+        {/* <Dialog>
           <DialogTrigger asChild>
             <Button className="w-[149px] h-[42px] bg-[#F3F4F6] text-[#072B46] hover:bg-[#F3F4F6]">
               File Upload <FileUp />
@@ -39,7 +39,7 @@ function OrganizationsHeader({
           <DialogContent className="w-[340px]">
             <FileUpload />
           </DialogContent>
-        </Dialog>
+        </Dialog> */}
         <Drawer direction="right" open={isFormOpen} onOpenChange={onOpenChange}>
           <DrawerTrigger asChild>
             <CreateButton />

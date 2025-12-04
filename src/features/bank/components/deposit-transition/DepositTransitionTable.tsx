@@ -53,6 +53,7 @@ function DepositTransitionTable({ handleEdit }: DepositTransitionTableProps) {
         label: "Status",
         headerClassName: "font-medium text-base text-[#99A1AF] text-center",
         className: " text-sm text-[#1E2939]",
+        cell: (value) => <span>{value ? "Active" : "InActive"}</span>,
       },
 
       {
@@ -84,20 +85,40 @@ function DepositTransitionTable({ handleEdit }: DepositTransitionTableProps) {
     [handleEdit]
   );
 
+  console.log("deposits", deposits);
+
+  const totalBodyData = deposits?.data ?? [];
+  const totalCount = 60;
+  const limit = 5;
+  const totalPages = Math.ceil(totalCount / limit);
+  const startIndex = (page - 1) * limit;
+  const endIndex = page * limit;
+  const currentPageData = totalBodyData.slice(startIndex, endIndex);
+
   return (
     <>
       <CustomTable<BaseDepositTransition>
         columns={columns}
-        body={deposits?.data ?? null}
+        // body={deposits?.data ?? null}
+        body={currentPageData}
         actions={actions}
         isLoading={isLoading}
       />
-      <CustomPagination
+      {/* <CustomPagination
         limit={5}
         totalCount={deposits?.totalPages ?? 1}
         isNext={deposits?.hasNextPage ?? false}
         isPrevious={deposits?.hasPreviousPage ?? false}
         page={deposits?.pagination.currentPage ?? 1}
+        setPage={setPage}
+      /> */}
+
+      <CustomPagination
+        limit={limit}
+        totalCount={totalCount}
+        isNext={page < totalPages}
+        isPrevious={page > 1}
+        page={page}
         setPage={setPage}
       />
     </>

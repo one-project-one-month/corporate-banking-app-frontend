@@ -7,8 +7,8 @@ import CustomPagination from "@/components/common/CustomPagination";
 import usePagination from "@/hooks/usePagination";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { StatusConfirm } from "@/components/common/StatusConfirm";
-import { EyeIcon, Pencil, Trash2 } from "lucide-react";
-import { DeleteButton } from "@/components/common/DeleteButton";
+// import { EyeIcon, Pencil, Trash2 } from "lucide-react";
+// import { DeleteButton } from "@/components/common/DeleteButton";
 
 type UsersTableProps = {
   handleEdit: (user: BaseUser) => void;
@@ -17,9 +17,9 @@ type UsersTableProps = {
 function UsersTable({ handleEdit }: UsersTableProps) {
   const { page, setPage } = usePagination();
   const { data: users, isLoading } = useGetUsers({ page, pageSize: 10 });
-  const { mutate: deleteUser } = useDeleteUser();
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [userToDelete, setUserToDelete] = useState<BaseUser | null>(null);
+  // const { mutate: deleteUser } = useDeleteUser();
+  // const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  // const [userToDelete, setUserToDelete] = useState<BaseUser | null>(null);
 
   console.log("user", users);
 
@@ -62,17 +62,24 @@ function UsersTable({ handleEdit }: UsersTableProps) {
         label: "Status",
         headerClassName: "font-medium text-base text-[#99A1AF] text-center",
         className: "text-sm text-center",
-        cell: (status: boolean, row: BaseUser) =>
-          status === false ? (
-            <Dialog>
-              <DialogTrigger>
-                <p className="text-red-500 font-medium">Pending</p>
-              </DialogTrigger>
-              <StatusConfirm userId={row.userId} />
-            </Dialog>
-          ) : (
-            <div className="text-[#3579F6]">Approve</div>
-          ),
+        cell: (status: number, row: BaseUser) => {
+          if (status === 1) {
+            return (
+              <Dialog>
+                <DialogTrigger>
+                  <p className="text-red-500 font-medium">Pending</p>
+                </DialogTrigger>
+                <StatusConfirm userId={row.userId} />
+              </Dialog>
+            );
+          }
+          if (status === 2) {
+            return <p className="text-[#3579F6]">Approved</p>;
+          }
+          if (status === 3) {
+            return <p className="text-gray-500 font-medium">Reject</p>;
+          }
+        },
       },
 
       {
@@ -89,31 +96,33 @@ function UsersTable({ handleEdit }: UsersTableProps) {
     []
   );
 
-  const actions = useMemo<Action<BaseUser>[]>(
-    () => [
-      {
-        name: "View Detail",
-        icons: <EyeIcon />,
-        onClick: function (row: BaseUser) {},
-      },
-      {
-        name: "Edit",
-        icons: <Pencil />,
-        onClick: function (row: BaseUser) {
-          handleEdit(row);
-        },
-      },
-      {
-        name: "Delete",
-        icons: <Trash2 color="red" />,
-        onClick: function (row: BaseUser) {
-          setUserToDelete(row);
-          setDeleteDialogOpen(true);
-        },
-      },
-    ],
-    [handleEdit]
-  );
+  // const actions = useMemo<Action<BaseUser>[]>(
+  //   () => [
+  //     {
+  //       name: "View Detail",
+  //       icons: <EyeIcon />,
+  //       onClick: function (row: BaseUser) {},
+  //     },
+  //     {
+  //       name: "Edit",
+  //       icons: <Pencil />,
+  //       onClick: function (row: BaseUser) {
+  //         handleEdit(row);
+  //       },
+  //     },
+  //     {
+  //       name: "Delete",
+  //       icons: <Trash2 color="red" />,
+  //       onClick: function (row: BaseUser) {
+  //         setUserToDelete(row);
+  //         setDeleteDialogOpen(true);
+  //       },
+  //     },
+  //   ],
+  //   [handleEdit]
+  // );
+
+  const actions = useMemo<Action<BaseUser>[]>(() => [], []);
 
   const tableBodyData = users?.data?.users ?? [];
   const sortedUsers = tableBodyData.sort((a, b) => a.userId - b.userId);
@@ -154,7 +163,7 @@ function UsersTable({ handleEdit }: UsersTableProps) {
         setPage={setPage}
       />
 
-      <DeleteButton
+      {/* <DeleteButton
         open={deleteDialogOpen}
         onOpenChange={setDeleteDialogOpen}
         itemName={userToDelete?.organizationName || ""}
@@ -166,7 +175,7 @@ function UsersTable({ handleEdit }: UsersTableProps) {
           setDeleteDialogOpen(false);
           setUserToDelete(null);
         }}
-      />
+      /> */}
     </>
   );
 }
