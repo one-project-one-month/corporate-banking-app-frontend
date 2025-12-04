@@ -64,9 +64,12 @@ export const useGetDeposits = (params: PaginationParam) => {
     queryKey: ["deposits", params.page, params.pageSize],
     queryFn: () => getDeposits(params),
     select: (data) => {
-      const totalPages = Math.ceil(
-        data?.pagination.total / (params?.pageSize ?? 5)
-      );
+      // const totalPages = Math.ceil(
+      //   data?.pagination.total / (params?.pageSize ?? 5)
+      // );
+
+      const totalCount = data?.data?.deposits?.length ?? 0;
+      const totalPages = Math.ceil(totalCount / (params.pageSize ?? 5));
       return {
         ...data,
         totalPages,
