@@ -51,6 +51,7 @@ function CustomTable<T extends Record<string, unknown>>({
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
   const [selectedData, setSelectedData] = useState<string | null>(null);
   const [selectedStatus, setSelectedStatus] = useState<boolean | null>(null);
+  const [searchText, setSearchText] = useState<string>("");
 
   const location = useLocation();
   const pathname = location.pathname;
@@ -69,6 +70,15 @@ function CustomTable<T extends Record<string, unknown>>({
     )
     ?.filter((row) =>
       selectedData ? String(row.someField).includes(selectedData) : true
+    )
+    ?.filter((row) =>
+      searchText
+        ? Object.values(row).some((val) =>
+            String(val)
+              .toLocaleLowerCase()
+              .includes(searchText.toLocaleLowerCase())
+          )
+        : true
     );
 
   const allSelected = !!body?.length && selectedRows.length === body.length;
@@ -95,7 +105,7 @@ function CustomTable<T extends Record<string, unknown>>({
       <div className="w-full mb-3 flex justify-end">
         <div className="flex justify-between gap-6">
           <div className="flex justify-between gap-3">
-            <SearchInput />
+            <SearchInput value={searchText} onChange={setSearchText} />
             <div>
               <StatusType
                 currentPage={currentPage}

@@ -6,7 +6,7 @@ import axios from "axios";
 // Create Deposit
 export const createDeposit = async (payload: CreateDepositPayload) => {
   try {
-    const res = await API.post("/deposit", payload);
+    const res = await API.post("/bank-admin/deposit", payload);
     return res.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -19,7 +19,7 @@ export const createDeposit = async (payload: CreateDepositPayload) => {
 // Get Deposits (with pagination)
 export const getDeposits = async (params: PaginationParam) => {
   try {
-    const res = await API.get("/deposit", { params });
+    const res = await API.get("/bank-admin/deposit", { params });
     return res.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
